@@ -575,12 +575,17 @@ tr:hover td{background:rgba(255,255,255,.008)}
               <tr style="background:var(--red-dim)"><td><span class="badge bg-bl">Garçom</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--red);color:#fff">L</div><div><div style="font-weight:600">Lucas Prado</div><div style="font-size:10px;color:var(--red)">⚠ Conflito de agenda</div></div></div></td><td><span class="stars">★★★☆☆</span></td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td>PIX</td><td><span class="badge bg-rd">—</span></td><td><span class="badge bg-rd">Conflito!</span></td><td><button class="btn btn-gold btn-sm" style="padding:3px 8px;font-size:10px" onclick="P('substituicao',null)">Substituir</button></td></tr>
               <tr><td><span class="badge bg-gd">Barman</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--gold);color:#000">C</div><div><div style="font-weight:600">Carlos Melo</div></div></div></td><td><span class="stars">★★★★☆</span></td><td style="font-family:'JetBrains Mono',monospace">R$300</td><td>Dinheiro</td><td><span class="badge bg-tl">✓ Assinado</span></td><td><span class="badge bg-gn">Confirmado</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Trocar</button></td></tr>
             </tbody></table></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-              <div><div style="font-size:11px;color:var(--text3)">Total equipe (21 profissionais)</div><div style="font-size:20px;font-weight:900;color:var(--gold);font-family:'JetBrains Mono',monospace">R$ 5.250,00</div></div>
-              <div style="display:flex;gap:8px">
-                <button class="btn btn-out btn-sm" onclick="openM('m-staff')">+ Adicionar</button>
-                <button class="btn btn-out btn-sm" onclick="P('contratos',null)">📋 Contratos</button>
-                <button class="btn btn-gold btn-sm" onclick="toast('📲 Convocações enviadas via WhatsApp para todos os 21 profissionais!')">📲 Convocar Equipe</button>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                <div><div style="font-size:11px;color:var(--text3)">Total equipe (21 profissionais)</div><div style="font-size:22px;font-weight:900;color:var(--gold);font-family:'JetBrains Mono',monospace">R$ 5.250,00</div></div>
+                <span class="badge bg-gn">19 confirmados</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <button class="btn btn-gold" onclick="toast('📲 Convocações enviadas via WhatsApp para todos os 21 profissionais! Aguarde confirmações.')">📲 Convocar Equipe via WhatsApp</button>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <button class="btn btn-out" onclick="openM('m-staff')" style="padding:10px;font-size:13px">+ Adicionar Profissional</button>
+                  <button class="btn btn-out" onclick="P('contratos',null)" style="padding:10px;font-size:13px">📋 Ver Contratos</button>
+                </div>
               </div>
             </div>
           </div>
