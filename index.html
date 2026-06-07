@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Eventos — v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090C;--surface:#0F1117;--surface2:#161922;--surface3:#1E222D;
+  --border:#252A36;--border2:#2E3444;
+  --gold:#F0A500;--gold2:#FFB830;--gold-dim:rgba(240,165,0,.12);--gold-border:rgba(240,165,0,.25);
+  --green:#22C55E;--green-dim:rgba(34,197,94,.12);--green-border:rgba(34,197,94,.25);
+  --red:#EF4444;--red-dim:rgba(239,68,68,.12);
+  --blue:#3B82F6;--blue-dim:rgba(59,130,246,.12);
+  --purple:#A855F7;--purple-dim:rgba(168,85,247,.12);
+  --teal:#14B8A6;--teal-dim:rgba(20,184,166,.12);
+  --orange:#F97316;--orange-dim:rgba(249,115,22,.12);
+  --text:#F1F3F7;--text2:#8892A4;--text3:#555F72;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden}
+input,select,textarea,button{font-family:'Outfit',sans-serif}
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex}
+
+/* ── LANDING ── */
+#screen-landing{flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+#screen-landing::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -5%,rgba(240,165,0,.09),transparent 65%);pointer-events:none}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.brand{text-align:center;margin-bottom:36px}
+.brand-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--gold),#C87800);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;box-shadow:0 0 48px rgba(240,165,0,.28)}
+.brand h1{font-size:30px;font-weight:900;letter-spacing:-.5px}
+.brand h1 span{color:var(--gold)}
+.brand p{color:var(--text3);font-size:13px;margin-top:4px}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;width:100%;max-width:460px;position:relative;z-index:1}
+.auth-card::before{content:'';position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.tab-row{display:flex;background:var(--surface2);border-radius:10px;padding:4px;margin-bottom:24px;gap:4px}
+.tab-btn{flex:1;padding:9px;border:none;background:none;color:var(--text2);font-size:13px;font-weight:600;border-radius:7px;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--surface3);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.fs{display:none}.fs.active{display:block}
+.fg{margin-bottom:14px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;letter-spacing:.3px;text-transform:uppercase}
+.field{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;outline:none;transition:border-color .2s}
+.field:focus{border-color:var(--gold)}
+.field::placeholder{color:var(--text3)}
+select.field option{background:var(--surface2)}
+
+/* steps */
+.steps{display:flex;align-items:center;margin-bottom:24px}
+.step{display:flex;align-items:center;gap:6px;flex:1}
+.sdot{width:26px;height:26px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);flex-shrink:0;transition:all .3s}
+.sdot.active{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.sdot.done{border-color:var(--green);background:var(--green);color:#000}
+.slabel{font-size:10px;color:var(--text3);font-weight:500}
+.step.active .slabel{color:var(--text)}
+.sline{flex:1;height:1px;background:var(--border);margin:0 6px}
+.sline.done{background:var(--green)}
+
+/* logo upload */
+.logo-up{border:2px dashed var(--border2);border-radius:10px;padding:22px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.logo-up:hover{border-color:var(--gold);background:var(--gold-dim)}
+.logo-up input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
+#lp{display:none;width:70px;height:70px;border-radius:10px;object-fit:cover;margin:0 auto 6px}
+
+/* plan grid */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.popt{border:2px solid var(--border);border-radius:9px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.popt.sel{border-color:var(--gold);background:var(--gold-dim)}
+.popt .pn{font-size:12px;font-weight:700}
+.popt .pp{font-size:10px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.pbadge{position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-size:8px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap}
+
+/* role opts */
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.ropt{border:2px solid var(--border);border-radius:9px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s}
+.ropt:hover{border-color:var(--border2)}
+.ropt.sel{border-color:var(--gold);background:var(--gold-dim)}
+.ropt .ri{font-size:20px;margin-bottom:4px}
+.ropt .rn{font-size:11px;font-weight:700}
+.ropt .rd{font-size:9px;color:var(--text3)}
+
+/* alert */
+.al{padding:9px 12px;border-radius:7px;font-size:12px;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.al-gold{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold)}
+.al-green{background:var(--green-dim);border:1px solid var(--green-border);color:var(--green)}
+.al-red{background:var(--red-dim);border:1px solid rgba(239,68,68,.25);color:var(--red)}
+.al-blue{background:var(--blue-dim);border:1px solid rgba(59,130,246,.25);color:var(--blue)}
+
+/* buttons */
+.btn{width:100%;padding:12px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.2px}
+.btn-gold{background:var(--gold);color:#000}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 20px rgba(240,165,0,.28)}
+.btn-out{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.btn-out:hover{border-color:var(--gold);color:var(--gold)}
+.btn-green{background:var(--green);color:#000}
+.btn-sm{padding:7px 14px;width:auto;font-size:12px;border-radius:7px}
+.btn-red{background:var(--red);color:#fff}
+.btn-teal{background:var(--teal);color:#000}
+
+/* divider */
+.divt{text-align:center;color:var(--text3);font-size:11px;margin:14px 0;position:relative}
+.divt::before,.divt::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:var(--border)}
+.divt::before{left:0}.divt::after{right:0}
+
+/* ── APP SHELL ── */
+#screen-app{flex-direction:row}
+.sb{width:232px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s}
+.sb.col{width:60px}
+.sb-head{padding:16px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--border)}
+.sb-logo{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),#C87800);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.sb-ttl{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden}
+.sb-ttl span{color:var(--gold)}
+.sb-nav{flex:1;padding:10px 7px;overflow-y:auto}
+.ns{margin-bottom:2px}
+.nlbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;padding:7px 9px 3px}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 9px;border-radius:8px;cursor:pointer;transition:all .2s;color:var(--text2);font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;position:relative;border:none;background:none;width:100%;text-align:left}
+.ni:hover{background:var(--surface2);color:var(--text)}
+.ni.active{background:var(--gold-dim);color:var(--gold)}
+.ni .ic{font-size:16px;flex-shrink:0;width:18px;text-align:center}
+.ni .nb{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;flex-shrink:0}
+.sb-foot{padding:10px;border-top:1px solid var(--border)}
+.upill{display:flex;align-items:center;gap:9px;padding:9px;border-radius:9px;background:var(--surface2);cursor:pointer}
+.uav{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.un{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ur{font-size:9px;color:var(--text3)}
+.rbadge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;margin-left:auto;flex-shrink:0}
+.rb-own{background:var(--gold-dim);color:var(--gold)}
+.rb-adm{background:var(--blue-dim);color:var(--blue)}
+.rb-view{background:var(--surface3);color:var(--text2)}
+
+/* topbar */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.tbl{display:flex;align-items:center;gap:10px}
+.pt{font-size:17px;font-weight:800}
+.ps{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.tbr{display:flex;align-items:center;gap:8px}
+.ibtn{width:34px;height:34px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;position:relative}
+.ndot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--red);border:2px solid var(--surface)}
+
+/* content */
+.content{flex:1;overflow-y:auto;padding:20px}
+.panel{display:none}.panel.active{display:block}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;overflow:hidden}
+.sc::after{content:'';position:absolute;top:-10px;right:-10px;width:50px;height:50px;border-radius:50%;opacity:.07}
+.sc.g::after{background:var(--gold)}.sc.gn::after{background:var(--green)}.sc.b::after{background:var(--blue)}.sc.r::after{background:var(--red)}
+.si{font-size:18px;margin-bottom:8px}
+.sv{font-size:26px;font-weight:900;line-height:1;margin-bottom:2px}
+.sv.g{color:var(--gold)}.sv.gn{color:var(--green)}.sv.b{color:var(--blue)}.sv.r{color:var(--red)}.sv.w{color:var(--text)}
+.sl{font-size:11px;color:var(--text3)}
+.st{font-size:10px;margin-top:4px;font-family:'JetBrains Mono',monospace}
+.t-up{color:var(--green)}.t-dn{color:var(--red)}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.ch{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13px;font-weight:700}
+.cb{padding:18px}
+
+/* table */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;padding:9px 13px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+td{padding:11px 13px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.008)}
+
+/* badges */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px}
+.badge::before{content:'●';font-size:6px}
+.bg-gn{background:var(--green-dim);color:var(--green)}
+.bg-rd{background:var(--red-dim);color:var(--red)}
+.bg-gd{background:var(--gold-dim);color:var(--gold)}
+.bg-bl{background:var(--blue-dim);color:var(--blue)}
+.bg-gr{background:var(--surface2);color:var(--text3)}
+.bg-pp{background:var(--purple-dim);color:var(--purple)}
+.bg-tl{background:var(--teal-dim);color:var(--teal)}
+.bg-or{background:var(--orange-dim);color:var(--orange)}
+
+/* avatar */
+.av{width:30px;height:30px;border-radius:7px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+
+/* grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* event card */
+.ecard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s}
+.ecard:hover{border-color:var(--gold);transform:translateY(-1px)}
+.etype{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.ename{font-size:14px;font-weight:700;margin-bottom:3px}
+.edet{font-size:11px;color:var(--text2);margin-bottom:3px}
+.eftr{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.savs{display:flex}
+.savs .av{width:22px;height:22px;border-radius:5px;font-size:9px;border:2px solid var(--surface);margin-left:-5px}
+.savs .av:first-child{margin-left:0}
+
+/* progress */
+.prog{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.pf{height:100%;border-radius:2px;transition:width .5s}
+.pf-gd{background:var(--gold)}.pf-gn{background:var(--green)}.pf-bl{background:var(--blue)}
+
+/* checkin row */
+.cir{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--surface2);border-radius:9px;margin-bottom:7px}
+.cit{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+
+/* toggle */
+.tog{width:36px;height:20px;border-radius:10px;background:var(--surface3);border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--green)}
+.tog::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .2s}
+.tog.on::after{transform:translateX(16px)}
+
+/* perm row */
+.pr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
+.pr:last-child{border-bottom:none}
+.pname{font-size:12px;font-weight:600}
+.pdesc{font-size:10px;color:var(--text3)}
+
+/* modal */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.mo.open{display:flex}
+.mbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;animation:mIn .18s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.mt{font-size:17px;font-weight:800}
+.mc{background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+.mc:hover{background:var(--surface2)}
+
+/* pay row */
+.payr{display:flex;align-items:center;justify-content:space-between;padding:12px 13px;background:var(--surface2);border-radius:9px;margin-bottom:7px}
+.pamt{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+
+/* notif */
+.nitem{display:flex;gap:10px;padding:12px;border-radius:9px;cursor:pointer;transition:background .2s}
+.nitem:hover{background:var(--surface2)}
+.nitem.unread{background:var(--gold-dim)}
+.ndot2{width:7px;height:7px;border-radius:50%;background:var(--gold);margin-top:5px;flex-shrink:0}
+.ndot2.read{background:var(--surface3)}
+
+/* stars */
+.stars{color:var(--gold);letter-spacing:1px;font-size:13px;cursor:pointer}
+
+/* toast */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:9px;z-index:9999;box-shadow:0 8px 28px rgba(0,0,0,.5);animation:tIn .25s ease;max-width:300px}
+@keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.toast.hide{animation:tOut .25s ease forwards}
+@keyframes tOut{to{opacity:0;transform:translateY(8px)}}
+
+/* NEW: contrato preview */
+.contrato-box{background:var(--surface3);border:1px dashed var(--border2);border-radius:10px;padding:16px;font-size:12px;line-height:1.8;color:var(--text2);margin-bottom:14px}
+.contrato-box strong{color:var(--text);font-weight:600}
+
+/* NEW: substituicao card */
+.sub-card{background:var(--surface2);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer;transition:all .2s;border:2px solid transparent}
+.sub-card:hover{border-color:var(--gold)}
+.sub-card.best{border-color:var(--green);background:var(--green-dim)}
+
+/* NEW: disponibilidade grid */
+.disp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px}
+.disp-day{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:all .2s}
+.disp-day.on{background:var(--green-dim);border-color:var(--green-border);color:var(--green)}
+.disp-day.off{background:var(--red-dim);border-color:rgba(239,68,68,.2);color:var(--red)}
+.disp-day .dd{font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.disp-day .dn{font-size:12px;font-weight:700}
+
+/* NEW: talent profile */
+.talent-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;transition:all .2s;cursor:pointer}
+.talent-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.talent-av{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;border:3px solid var(--border2)}
+.talent-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.talent-role{font-size:11px;color:var(--text3);margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.talent-link{font-size:11px;color:var(--gold);font-family:'JetBrains Mono',monospace}
+
+/* NEW: app mobile view */
+.mobile-frame{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:320px}
+.mf-bar{background:var(--ink,#08090C);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text2)}
+.mf-body{padding:14px}
+.app-home{background:linear-gradient(160deg,var(--surface2),var(--bg));border-radius:12px;padding:16px;margin-bottom:10px;text-align:center}
+.app-event-name{font-size:16px;font-weight:800;margin-bottom:4px}
+.app-event-info{font-size:11px;color:var(--text2)}
+.app-checkin-btn{background:linear-gradient(135deg,var(--green),#16A34A);color:#000;border:none;border-radius:10px;padding:14px;width:100%;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px}
+.app-valor{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:10px;text-align:center;margin-top:8px}
+.app-valor .av-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--gold)}
+.app-valor .av-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* responsive */
+@media(max-width:768px){
+  .stats{grid-template-columns:1fr 1fr}
+  .sb{position:fixed;z-index:100;transform:translateX(-100%);transition:transform .3s}
+  .sb.mob-open{transform:translateX(0)}
+  .fr,.g2,.g3,.g4{grid-template-columns:1fr}
+  .pgrid,.rgrid{grid-template-columns:1fr}
+}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ======== SCREEN 1: AUTH ======== -->
+<div id="screen-landing" class="screen active">
+  <div class="grid-bg"></div>
+  <div class="brand">
+    <div class="brand-icon">⚡</div>
+    <h1>Staff<span>Eventos</span></h1>
+    <p>Gestão inteligente de equipes para eventos</p>
+  </div>
+
+  <div class="auth-card">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('c')">Cadastrar Empresa</button>
+      <button class="tab-btn" onclick="switchTab('l')">Entrar</button>
+    </div>
+
+    <!-- CADASTRO -->
+    <div id="fc" class="fs active">
+      <div class="steps">
+        <div class="step active" id="st1"><div class="sdot active" id="sd1">1</div><span class="slabel">Empresa</span></div>
+        <div class="sline" id="sl1"></div>
+        <div class="step" id="st2"><div class="sdot" id="sd2">2</div><span class="slabel">Responsável</span></div>
+        <div class="sline" id="sl2"></div>
+        <div class="step" id="st3"><div class="sdot" id="sd3">3</div><span class="slabel">Plano</span></div>
+      </div>
+
+      <div id="cs1">
+        <div class="fg">
+          <label>Logomarca da Empresa</label>
+          <div class="logo-up" onclick="document.getElementById('li').click()">
+            <input type="file" id="li" accept="image/*" onchange="prevLogo(event)">
+            <img id="lp" src="" alt="">
+            <div id="lph"><div style="font-size:26px;margin-bottom:6px">🏢</div><p style="font-size:12px;color:var(--text2)">Clique para enviar a logomarca</p><p style="font-size:10px;color:var(--text3);margin-top:3px">PNG, JPG, SVG · Máx. 2MB</p></div>
+          </div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label>CNPJ *</label><input class="field" type="text" id="cnpj" placeholder="00.000.000/0001-00" maxlength="18" oninput="mCNPJ(this)" onblur="bCNPJ(this.value)"></div>
+          <div class="fg"><label>Segmento *</label><select class="field"><option>Selecionar...</option><option>Empresa de Buffet</option><option>Casa de Festas</option><option>Agência de Staff</option><option>Organizadora de Eventos</option><option>Cerimonialista</option><option>Restaurante / Hotel</option><option>Outro</option></select></div>
+        </div>
+        <div class="fg"><label>Razão Social *</label><input class="field" type="text" id="razao" placeholder="Nome jurídico da empresa"></div>
+        <div class="fg"><label>Nome Fantasia</label><input class="field" type="text" id="fantasia" placeholder="Como a empresa é conhecida"></div>
+        <div class="fr">
+          <div class="fg"><label>Telefone *</label><input class="field" type="text" placeholder="(11) 00000-0000" oninput="mPhone(this)"></div>
+          <div class="fg"><label>WhatsApp</label><input class="field" type="text" placeholder="(11) 00000-0000" oninput="mPhone(this)"></div>
+        </div>
+        <div class="fg"><label>E-mail Corporativo *</label><input class="field" type="email" placeholder="contato@suaempresa.com.br"></div>
+        <div class="fr">
+          <div class="fg"><label>CEP *</label><input class="field" type="text" placeholder="00000-000" oninput="mCEP(this)"></div>
+          <div class="fg"><label>Cidade / Estado</label><input class="field" placeholder="São Paulo / SP"></div>
+        </div>
+        <button class="btn btn-gold" onclick="goStep(2)">Próximo: Responsável →</button>
+      </div>
+
+      <div id="cs2" style="display:none">
+        <div class="al al-gold">👑 Este será o proprietário com acesso total ao sistema.</div>
+        <div class="fr">
+          <div class="fg"><label>Nome Completo *</label><input class="field" placeholder="Nome do responsável"></div>
+          <div class="fg"><label>CPF *</label><input class="field" placeholder="000.000.000-00" oninput="mCPF(this)"></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label>Cargo</label><input class="field" placeholder="Ex: Proprietário, Diretor"></div>
+          <div class="fg"><label>Celular *</label><input class="field" placeholder="(11) 00000-0000" oninput="mPhone(this)"></div>
+        </div>
+        <div class="fg"><label>E-mail de Login *</label><input class="field" type="email" placeholder="seu@email.com"></div>
+        <div class="fr">
+          <div class="fg"><label>Senha *</label><input class="field" type="password" placeholder="Mínimo 8 caracteres"></div>
+          <div class="fg"><label>Confirmar Senha *</label><input class="field" type="password" placeholder="Repita a senha"></div>
+        </div>
+        <div class="al al-gold">🔐 A senha do proprietário é única. Gestores/Supervisores terão senhas próprias criadas por você.</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-out btn-sm" onclick="goStep(1)" style="width:auto;padding:11px 18px">← Voltar</button>
+          <button class="btn btn-gold" onclick="goStep(3)">Próximo: Plano →</button>
+        </div>
+      </div>
+
+      <div id="cs3" style="display:none">
+        <div class="fg">
+          <label>Escolha seu Plano</label>
+          <div class="pgrid">
+            <div class="popt" onclick="selPlan(this)"><div class="pn">Essencial</div><div class="pp">R$97/mês</div><div style="font-size:9px;color:var(--text3);margin-top:3px">30 profis.</div></div>
+            <div class="popt sel" onclick="selPlan(this)"><div class="pbadge">POPULAR</div><div class="pn">Profissional</div><div class="pp">R$297/mês</div><div style="font-size:9px;color:var(--text3);margin-top:3px">Ilimitado + IA</div></div>
+            <div class="popt" onclick="selPlan(this)"><div class="pn">Agência</div><div class="pp">R$497/mês</div><div style="font-size:9px;color:var(--text3);margin-top:3px">Multi-empresa</div></div>
+          </div>
+        </div>
+        <div class="fg"><label>Forma de Pagamento</label><select class="field" onchange="toggleCardFields(this)"><option>Cartão de Crédito</option><option>PIX (5% desconto)</option><option>Boleto Bancário</option></select></div>
+        <div id="card-fields">
+          <div class="fg"><label>Número do Cartão</label><input class="field" placeholder="0000 0000 0000 0000" oninput="mCard(this)" maxlength="19"></div>
+          <div class="fr">
+            <div class="fg"><label>Validade</label><input class="field" placeholder="MM/AA" maxlength="5"></div>
+            <div class="fg"><label>CVV</label><input class="field" placeholder="000" maxlength="4"></div>
+          </div>
+          <div class="fg"><label>Nome no Cartão</label><input class="field" placeholder="NOME COMO NO CARTÃO" style="text-transform:uppercase"></div>
+        </div>
+        <div class="al al-green">✓ 30 dias grátis — sem cobrança hoje. Cancele quando quiser.</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-out btn-sm" onclick="goStep(2)" style="width:auto;padding:11px 18px">← Voltar</button>
+          <button class="btn btn-gold" onclick="finCad()">🚀 Criar minha conta</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="fl" class="fs">
+      <div class="fg"><label>E-mail</label><input class="field" type="email" placeholder="seu@email.com" value="maria@buffetimperial.com.br"></div>
+      <div class="fg"><label>Senha</label><input class="field" type="password" placeholder="Sua senha" value="••••••••"></div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:18px"><span style="font-size:11px;color:var(--gold);cursor:pointer">Esqueci minha senha</span></div>
+      <div class="fg">
+        <label>Entrar como</label>
+        <div class="rgrid">
+          <div class="ropt sel" onclick="selRole(this,'owner')"><div class="ri">👑</div><div class="rn">Proprietário</div><div class="rd">Acesso total</div></div>
+          <div class="ropt" onclick="selRole(this,'admin')"><div class="ri">🛡️</div><div class="rn">Administrador</div><div class="rd">Gestão de escalas</div></div>
+          <div class="ropt" onclick="selRole(this,'viewer')"><div class="ri">👁️</div><div class="rn">Supervisor</div><div class="rd">Somente leitura</div></div>
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="doLogin()">Entrar na plataforma →</button>
+      <div class="divt" style="margin-top:16px">demonstração rápida</div>
+      <div class="g3">
+        <button class="btn btn-out btn-sm" onclick="demoLogin('owner')" style="width:100%;padding:8px;font-size:11px">👑 Owner</button>
+        <button class="btn btn-out btn-sm" onclick="demoLogin('admin')" style="width:100%;padding:8px;font-size:11px">🛡️ Admin</button>
+        <button class="btn btn-out btn-sm" onclick="demoLogin('viewer')" style="width:100%;padding:8px;font-size:11px">👁️ Viewer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SCREEN 2: APP ======== -->
+<div id="screen-app" class="screen">
+
+  <!-- SIDEBAR -->
+  <nav class="sb" id="sb">
+    <div class="sb-head">
+      <div class="sb-logo" id="sbl">⚡</div>
+      <div class="sb-ttl">Staff<span>Eventos</span></div>
+    </div>
+    <div class="sb-nav">
+      <div class="ns"><div class="nlbl">Principal</div>
+        <button class="ni active" onclick="P('dashboard',this)"><span class="ic">📊</span>Dashboard</button>
+        <button class="ni" onclick="P('eventos',this)"><span class="ic">📅</span>Eventos<span class="nb">3</span></button>
+        <button class="ni" onclick="P('escala',this)"><span class="ic">⚡</span>Escalar Equipe</button>
+        <button class="ni" onclick="P('profissionais',this)"><span class="ic">👥</span>Profissionais</button>
+      </div>
+      <div class="ns" id="n-fin"><div class="nlbl">Financeiro</div>
+        <button class="ni" onclick="P('pagamentos',this)"><span class="ic">💰</span>Pagamentos<span class="nb">5</span></button>
+        <button class="ni" onclick="P('relatorios',this)"><span class="ic">📋</span>Relatórios</button>
+      </div>
+      <div class="ns"><div class="nlbl">Operação</div>
+        <button class="ni" onclick="P('clientes',this)"><span class="ic">🏢</span>Clientes</button>
+        <button class="ni" onclick="P('avaliacoes',this)"><span class="ic">⭐</span>Avaliações</button>
+        <button class="ni" onclick="P('checkin',this)"><span class="ic">📍</span>Check-in/Out</button>
+        <button class="ni" onclick="P('contratos',this)"><span class="ic">📋</span>Contratos<span class="nb" style="background:var(--teal)">NOVO</span></button>
+        <button class="ni" onclick="P('substituicao',this)"><span class="ic">🔄</span>Substituições<span class="nb">1</span></button>
+        <button class="ni" onclick="P('talentos',this)"><span class="ic">🌟</span>Banco de Talentos<span class="nb" style="background:var(--teal)">NOVO</span></button>
+      </div>
+      <div class="ns" id="n-sys"><div class="nlbl">Sistema</div>
+        <button class="ni" onclick="P('usuarios',this)"><span class="ic">🔐</span>Usuários & Acessos</button>
+        <button class="ni" onclick="P('config',this)"><span class="ic">⚙️</span>Configurações</button>
+      </div>
+    </div>
+    <div class="sb-foot">
+      <div class="upill">
+        <div class="uav" id="sbav" style="background:var(--gold);color:#000">M</div>
+        <div style="overflow:hidden;flex:1"><div class="un" id="sbname">Maria Clara</div><div class="ur" id="sbco">Buffet Imperial</div></div>
+        <span class="rbadge rb-own" id="sbrole">Owner</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="tbl">
+        <button class="ibtn" onclick="document.getElementById('sb').classList.toggle('col')">☰</button>
+        <div><div class="pt" id="ptitle">Dashboard</div><div class="ps" id="psub">Visão geral da operação</div></div>
+      </div>
+      <div class="tbr">
+        <button class="ibtn" onclick="P('notificacoes',null)" style="position:relative">🔔<span class="ndot"></span></button>
+        <button class="ibtn" onclick="doLogout()">🚪</button>
+        <div class="av" id="tpav" style="background:var(--gold);color:#000;cursor:pointer;width:34px;height:34px;font-size:14px">M</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="panel-dashboard" class="panel active">
+        <div class="stats">
+          <div class="sc g"><div class="si">📅</div><div class="sv g">12</div><div class="sl">Eventos este mês</div><div class="st t-up">↑ +3 vs anterior</div></div>
+          <div class="sc gn"><div class="si">👥</div><div class="sv gn">84</div><div class="sl">Profissionais ativos</div><div class="st t-up">↑ +7 novos</div></div>
+          <div class="sc b"><div class="si">✅</div><div class="sv b">96%</div><div class="sl">Taxa confirmação</div><div class="st t-up">↑ recorde</div></div>
+          <div class="sc r"><div class="si">💰</div><div class="sv w">R$18.4k</div><div class="sl">Faturamento mensal</div><div class="st t-up">↑ +22%</div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">Próximos Eventos</span><button class="btn btn-gold btn-sm" onclick="P('eventos',null)">Ver todos</button></div>
+            <div style="padding:0"><table><thead><tr><th>Evento</th><th>Data</th><th>Equipe</th><th>Status</th></tr></thead><tbody>
+              <tr style="cursor:pointer" onclick="P('escala',null)"><td><div style="font-weight:600;font-size:13px">Casamento Ana & Pedro</div><div style="font-size:10px;color:var(--text3)">Casa Festas Imperial</div></td><td><span style="font-family:'JetBrains Mono',monospace;font-size:11px">15/08</span></td><td><div class="savs"><div class="av" style="background:#3B82F6;color:#fff">G</div><div class="av" style="background:#A855F7;color:#fff">J</div><div class="av" style="background:var(--surface3);color:var(--text3);font-size:8px">+18</div></div></td><td><span class="badge bg-gn">Confirmado</span></td></tr>
+              <tr><td><div style="font-weight:600;font-size:13px">Formatura Med. USP</div><div style="font-size:10px;color:var(--text3)">Club Homs</div></td><td><span style="font-family:'JetBrains Mono',monospace;font-size:11px">20/08</span></td><td><div class="savs"><div class="av" style="background:var(--gold);color:#000">R</div><div class="av" style="background:var(--surface3);color:var(--text3);font-size:8px">+24</div></div></td><td><span class="badge bg-gd">Pendente</span></td></tr>
+              <tr><td><div style="font-weight:600;font-size:13px">TechBrasil Summit</div><div style="font-size:10px;color:var(--text3)">WTC São Paulo</div></td><td><span style="font-family:'JetBrains Mono',monospace;font-size:11px">22/08</span></td><td><div style="font-size:11px;color:var(--text3)">Aguardando</div></td><td><span class="badge bg-bl">Escalar</span></td></tr>
+            </tbody></table></div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Top Profissionais</span><span style="font-size:11px;color:var(--text3)">este mês</span></div>
+            <div style="padding:0"><table><thead><tr><th>Nome</th><th>Função</th><th>Nota</th></tr></thead><tbody>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--gold);color:#000">J</div><span style="font-weight:600">João Silva</span></div></td><td>Garçom</td><td><span class="stars">★★★★★</span></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--green);color:#000">A</div><span style="font-weight:600">Ana Rocha</span></div></td><td>Maître</td><td><span class="stars">★★★★★</span></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--blue);color:#fff">C</div><span style="font-weight:600">Carlos Melo</span></div></td><td>Barman</td><td><span class="stars">★★★★☆</span></td></tr>
+            </tbody></table></div>
+          </div>
+        </div>
+        <div class="g2" style="margin-top:14px">
+          <div class="card">
+            <div class="ch"><span class="ct">🔄 Substituições Pendentes</span><span class="badge bg-rd">1 urgente</span></div>
+            <div class="cb" style="padding:12px">
+              <div class="al al-red" style="margin-bottom:10px">⚠️ Lucas Prado recusou o Casamento 15/08 — garçom não disponível.</div>
+              <button class="btn btn-gold" onclick="P('substituicao',null)">🔄 Ver Substituições Sugeridas</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">📋 Contratos Pendentes</span><span class="badge bg-tl">2 aguardando</span></div>
+            <div class="cb" style="padding:12px">
+              <div class="cir"><div class="av" style="background:var(--gold);color:#000">J</div><div style="flex:1"><div style="font-weight:600;font-size:12px">João Silva — Garçom</div><div style="font-size:10px;color:var(--text3)">Casamento 15/08</div></div><span class="badge bg-gd">Pendente assinatura</span></div>
+              <div class="cir"><div class="av" style="background:var(--blue);color:#fff">R</div><div style="flex:1"><div style="font-weight:600;font-size:12px">Roberto Alves — Garçom</div><div style="font-size:10px;color:var(--text3)">Casamento 15/08</div></div><span class="badge bg-gd">Pendente assinatura</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EVENTOS -->
+      <div id="panel-eventos" class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div style="display:flex;gap:7px"><button class="btn btn-out btn-sm" style="border-color:var(--gold);color:var(--gold)">Todos</button><button class="btn btn-out btn-sm">Hoje</button><button class="btn btn-out btn-sm">Semana</button></div>
+          <button class="btn btn-gold btn-sm" onclick="openM('m-evento')">+ Novo Evento</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px">
+          <div class="ecard" onclick="P('escala',null)"><div class="etype">Casamento</div><div class="ename">Ana & Pedro</div><div class="edet">📅 15/08/2026 · 18h–02h</div><div class="edet">📍 Casa de Festas Imperial</div><div style="margin-top:8px"><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:3px"><span>Confirmações</span><span>19/21</span></div><div class="prog"><div class="pf pf-gn" style="width:90%"></div></div></div><div class="eftr"><div class="savs"><div class="av" style="background:#3B82F6;color:#fff;width:22px;height:22px;font-size:9px">G</div><div class="av" style="background:#A855F7;color:#fff;width:22px;height:22px;font-size:9px">J</div><div class="av" style="background:var(--surface3);color:var(--text3);width:22px;height:22px;font-size:8px">+18</div></div><span class="badge bg-gn">Confirmado</span></div></div>
+          <div class="ecard"><div class="etype">Formatura</div><div class="ename">Medicina USP 2026</div><div class="edet">📅 20/08/2026 · 20h–04h</div><div class="edet">📍 Club Homs, SP</div><div style="margin-top:8px"><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:3px"><span>Escalado</span><span>15/30</span></div><div class="prog"><div class="pf pf-gd" style="width:50%"></div></div></div><div class="eftr"><div class="savs"><div class="av" style="background:var(--gold);color:#000;width:22px;height:22px;font-size:9px">R</div><div class="av" style="background:var(--surface3);color:var(--text3);width:22px;height:22px;font-size:8px">+14</div></div><span class="badge bg-gd">Pendente</span></div></div>
+          <div class="ecard"><div class="etype">Corporativo</div><div class="ename">TechBrasil Summit</div><div class="edet">📅 22/08/2026 · 08h–18h</div><div class="edet">📍 WTC São Paulo</div><div style="margin-top:8px"><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:3px"><span>Escalado</span><span>0/14</span></div><div class="prog"><div class="pf pf-bl" style="width:0%"></div></div></div><div class="eftr"><div style="font-size:11px;color:var(--text3)">Aguardando escala</div><button class="btn btn-gold btn-sm" onclick="P('escala',null)">Escalar</button></div></div>
+        </div>
+      </div>
+
+      <!-- ESCALA -->
+      <div id="panel-escala" class="panel">
+        <div class="card">
+          <div class="ch"><div><div class="ct">Casamento Ana & Pedro — 15/08/2026</div><div style="font-size:11px;color:var(--text3)">Casa de Festas Imperial · Chegada equipe: 15h00</div></div><span class="badge bg-gn">Confirmado</span></div>
+          <div class="cb">
+            <div class="al al-gold" style="margin-bottom:14px">🤖 IA sugeriu esta escala com base em 280 convidados e histórico de casamentos similares.</div>
+            <div class="tw"><table><thead><tr><th>Função</th><th>Profissional</th><th>Avaliação</th><th>Cachê</th><th>Pgto</th><th>Contrato</th><th>Status</th><th></th></tr></thead><tbody>
+              <tr><td><span class="badge bg-bl">Garçom</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:#3B82F6;color:#fff">J</div><div><div style="font-weight:600">João Silva</div><div style="font-size:10px;color:var(--text3)">(11) 99999-0001</div></div></div></td><td><span class="stars">★★★★★</span></td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td>PIX</td><td><span class="badge bg-tl">✓ Assinado</span></td><td><span class="badge bg-gn">Confirmado</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="openM('m-subst')">Trocar</button></td></tr>
+              <tr><td><span class="badge bg-bl">Garçom</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--purple);color:#fff">R</div><div><div style="font-weight:600">Roberto Alves</div><div style="font-size:10px;color:var(--text3)">(11) 99999-0002</div></div></div></td><td><span class="stars">★★★★☆</span></td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td>PIX</td><td><span class="badge bg-gd">Pendente</span></td><td><span class="badge bg-gd">Aguardando</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Trocar</button></td></tr>
+              <tr><td><span class="badge bg-pp">Maître</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--green);color:#000">A</div><div><div style="font-weight:600">Ana Rocha</div></div></div></td><td><span class="stars">★★★★★</span></td><td style="font-family:'JetBrains Mono',monospace">R$380</td><td>PIX</td><td><span class="badge bg-tl">✓ Assinado</span></td><td><span class="badge bg-gn">Confirmado</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Trocar</button></td></tr>
+              <tr style="background:var(--red-dim)"><td><span class="badge bg-bl">Garçom</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--red);color:#fff">L</div><div><div style="font-weight:600">Lucas Prado</div><div style="font-size:10px;color:var(--red)">⚠ Conflito de agenda</div></div></div></td><td><span class="stars">★★★☆☆</span></td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td>PIX</td><td><span class="badge bg-rd">—</span></td><td><span class="badge bg-rd">Conflito!</span></td><td><button class="btn btn-gold btn-sm" style="padding:3px 8px;font-size:10px" onclick="P('substituicao',null)">Substituir</button></td></tr>
+              <tr><td><span class="badge bg-gd">Barman</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--gold);color:#000">C</div><div><div style="font-weight:600">Carlos Melo</div></div></div></td><td><span class="stars">★★★★☆</span></td><td style="font-family:'JetBrains Mono',monospace">R$300</td><td>Dinheiro</td><td><span class="badge bg-tl">✓ Assinado</span></td><td><span class="badge bg-gn">Confirmado</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Trocar</button></td></tr>
+            </tbody></table></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+              <div><div style="font-size:11px;color:var(--text3)">Total equipe (21 profissionais)</div><div style="font-size:20px;font-weight:900;color:var(--gold);font-family:'JetBrains Mono',monospace">R$ 5.250,00</div></div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-out btn-sm" onclick="openM('m-staff')">+ Adicionar</button>
+                <button class="btn btn-out btn-sm" onclick="P('contratos',null)">📋 Contratos</button>
+                <button class="btn btn-gold btn-sm" onclick="toast('📲 Convocações enviadas via WhatsApp para todos os 21 profissionais!')">📲 Convocar Equipe</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBSTITUICAO (NOVO) -->
+      <div id="panel-substituicao" class="panel">
+        <div class="al al-red" style="margin-bottom:16px">⚠️ <strong>Lucas Prado</strong> recusou a convocação para Casamento Ana & Pedro (15/08) — Garçom. Selecione um substituto:</div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="ch"><span class="ct">🤖 Substitutos Sugeridos pela IA</span><span style="font-size:11px;color:var(--text3)">Ordenados por avaliação + disponibilidade</span></div>
+          <div class="cb" style="padding:12px">
+            <div class="sub-card best"><div class="av" style="background:var(--green);color:#000;width:36px;height:36px;font-size:15px">F</div><div style="flex:1"><div style="font-weight:700">Felipe Souza</div><div style="font-size:11px;color:var(--text2)">Garçom · ★★★★★ 4.9 · 38 eventos</div><div style="font-size:10px;color:var(--green);margin-top:2px">✓ Disponível · 3.2km do evento</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:13px">R$250</div><button class="btn btn-green btn-sm" style="margin-top:6px;padding:5px 12px;font-size:11px" onclick="toast('✅ Felipe Souza adicionado à escala! WhatsApp enviado.')">Convocar</button></div></div>
+            <div class="sub-card"><div class="av" style="background:var(--blue);color:#fff;width:36px;height:36px;font-size:15px">M</div><div style="flex:1"><div style="font-weight:700">Mateus Lima</div><div style="font-size:11px;color:var(--text2)">Garçom · ★★★★☆ 4.3 · 22 eventos</div><div style="font-size:10px;color:var(--text3);margin-top:2px">✓ Disponível · 6.8km do evento</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:13px">R$250</div><button class="btn btn-out btn-sm" style="margin-top:6px;padding:5px 12px;font-size:11px" onclick="toast('✅ Mateus Lima adicionado! WhatsApp enviado.')">Convocar</button></div></div>
+            <div class="sub-card"><div class="av" style="background:var(--purple);color:#fff;width:36px;height:36px;font-size:15px">D</div><div style="flex:1"><div style="font-weight:700">Diego Martins</div><div style="font-size:11px;color:var(--text2)">Garçom · ★★★★☆ 4.1 · 15 eventos</div><div style="font-size:10px;color:var(--text3);margin-top:2px">✓ Disponível · 9.1km do evento</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:13px">R$250</div><button class="btn btn-out btn-sm" style="margin-top:6px;padding:5px 12px;font-size:11px" onclick="toast('✅ Diego Martins adicionado! WhatsApp enviado.')">Convocar</button></div></div>
+          </div>
+        </div>
+        <div class="al al-blue">💡 A IA filtrou automaticamente profissionais disponíveis na data, na função garçom, com avaliação acima de 4.0 e na região do evento.</div>
+      </div>
+
+      <!-- CONTRATOS (NOVO) -->
+      <div id="panel-contratos" class="panel">
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">📋 Contratos do Evento</span><span style="font-size:11px;color:var(--text3)">Casamento Ana & Pedro · 15/08</span></div>
+            <div class="cb" style="padding:0"><table><thead><tr><th>Profissional</th><th>Função</th><th>Valor</th><th>Status</th><th></th></tr></thead><tbody>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--gold);color:#000">J</div>João Silva</div></td><td>Garçom</td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td><span class="badge bg-tl">✓ Assinado</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="toast('📄 Contrato de João Silva exportado em PDF!')">PDF</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--purple);color:#fff">R</div>Roberto Alves</div></td><td>Garçom</td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td><span class="badge bg-gd">Aguardando</span></td><td><button class="btn btn-gold btn-sm" style="padding:3px 8px;font-size:10px" onclick="toast('📲 Contrato enviado via WhatsApp para Roberto!')">Reenviar WA</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--green);color:#000">A</div>Ana Rocha</div></td><td>Maître</td><td style="font-family:'JetBrains Mono',monospace">R$380</td><td><span class="badge bg-tl">✓ Assinado</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="toast('📄 Contrato de Ana Rocha exportado!')">PDF</button></td></tr>
+            </tbody></table></div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Prévia do Contrato</span></div>
+            <div class="cb">
+              <div class="contrato-box">
+                <strong>CONTRATO DE PRESTAÇÃO DE SERVIÇO FREELANCER</strong><br><br>
+                Pelo presente instrumento, <strong>Buffet Imperial</strong> contrata os serviços de:<br><br>
+                <strong>Profissional:</strong> João Silva<br>
+                <strong>CPF:</strong> 123.456.789-00<br>
+                <strong>Função:</strong> Garçom<br>
+                <strong>Evento:</strong> Casamento Ana & Pedro<br>
+                <strong>Data:</strong> 15/08/2026<br>
+                <strong>Horário:</strong> 15h00 às 02h00<br>
+                <strong>Local:</strong> Casa de Festas Imperial<br>
+                <strong>Valor:</strong> R$ 250,00<br>
+                <strong>Pagamento:</strong> PIX — até 48h após o evento<br><br>
+                <em>⚠️ Este evento poderá gerar horas extras.</em><br><br>
+                Assinado digitalmente via Staff Eventos em 10/08/2026.
+              </div>
+              <button class="btn btn-teal" onclick="toast('📲 Contrato enviado para assinatura via WhatsApp!')">📲 Enviar para Assinatura</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFISSIONAIS -->
+      <div id="panel-profissionais" class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div style="display:flex;gap:7px"><input class="field" type="text" placeholder="🔍 Buscar..." style="width:200px;padding:7px 12px"><select class="field" style="width:140px;padding:7px 12px"><option>Todas as funções</option><option>Garçom</option><option>Maître</option><option>Barman</option><option>Copeiro</option></select></div>
+          <div style="display:flex;gap:7px">
+            <button class="btn btn-out btn-sm" onclick="P('talentos',null)">🌟 Banco de Talentos</button>
+            <button class="btn btn-gold btn-sm" onclick="openM('m-prof')">+ Cadastrar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="tw"><table><thead><tr><th>Profissional</th><th>Função</th><th>Disponibilidade</th><th>Avaliação</th><th>Eventos</th><th>Status</th><th>Ações</th></tr></thead><tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--gold);color:#000">J</div><div><div style="font-weight:600">João Silva</div><div style="font-size:10px;color:var(--text3)">CPF: 123.456.789-00</div></div></div></td><td><span class="badge bg-bl">Garçom</span></td><td><span class="badge bg-gn">Disponível</span></td><td><span class="stars">★★★★★</span> <span style="font-size:10px;color:var(--text3)">4.9</span></td><td style="font-family:'JetBrains Mono',monospace">47</td><td><span class="badge bg-gn">Ativo</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="openM('m-disp')">📅 Disp.</button><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Editar</button></div></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--green);color:#000">A</div><div><div style="font-weight:600">Ana Rocha</div><div style="font-size:10px;color:var(--text3)">CPF: 987.654.321-00</div></div></div></td><td><span class="badge bg-pp">Maître</span></td><td><span class="badge bg-gn">Disponível</span></td><td><span class="stars">★★★★★</span> <span style="font-size:10px;color:var(--text3)">4.8</span></td><td style="font-family:'JetBrains Mono',monospace">35</td><td><span class="badge bg-gn">Ativo</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="openM('m-disp')">📅 Disp.</button><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Editar</button></div></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--blue);color:#fff">C</div><div><div style="font-weight:600">Carlos Melo</div><div style="font-size:10px;color:var(--text3)">CPF: 456.789.123-00</div></div></div></td><td><span class="badge bg-gd">Barman</span></td><td><span class="badge bg-rd">Indisponível 18/08</span></td><td><span class="stars">★★★★☆</span> <span style="font-size:10px;color:var(--text3)">4.2</span></td><td style="font-family:'JetBrains Mono',monospace">28</td><td><span class="badge bg-gn">Ativo</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="openM('m-disp')">📅 Disp.</button><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px">Editar</button></div></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--red);color:#fff">M</div><div><div style="font-weight:600">Marcos Freitas</div><div style="font-size:10px;color:var(--red)">3 faltas registradas</div></div></div></td><td><span class="badge bg-gr">Segurança</span></td><td><span class="badge bg-gr">—</span></td><td><span class="stars">★★★☆☆</span> <span style="font-size:10px;color:var(--red)">2.9</span></td><td style="font-family:'JetBrains Mono',monospace">12</td><td><span class="badge bg-rd">Bloqueado</span></td><td><button class="btn btn-gold btn-sm" style="padding:4px 10px;font-size:10px" onclick="toast('✅ Marcos Freitas reativado!')">Reativar</button></td></tr>
+          </tbody></table></div>
+        </div>
+      </div>
+
+      <!-- PAGAMENTOS -->
+      <div id="panel-pagamentos" class="panel">
+        <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+          <div class="sc g"><div class="si">⏳</div><div class="sv g">R$3.480</div><div class="sl">Aguardando</div></div>
+          <div class="sc gn"><div class="si">✅</div><div class="sv gn">R$12.750</div><div class="sl">Pagos este mês</div></div>
+          <div class="sc r"><div class="si">⚠️</div><div class="sv r">2</div><div class="sl">Atrasados</div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Fila de Pagamentos</span><button class="btn btn-gold btn-sm" onclick="toast('✅ Todos os pagamentos PIX aprovados e enviados!')">Aprovar todos (PIX)</button></div>
+          <div class="tw"><table><thead><tr><th>Profissional</th><th>Evento</th><th>Valor</th><th>H.Extras</th><th>Método</th><th>Recibo</th><th>Status</th><th></th></tr></thead><tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--gold);color:#000">J</div>João Silva</div></td><td>Casamento 10/08</td><td style="font-family:'JetBrains Mono',monospace">R$250</td><td style="color:var(--gold);font-family:'JetBrains Mono',monospace">+R$50</td><td>PIX</td><td><span class="badge bg-gr">Pendente</span></td><td><span class="badge bg-gd">Pendente</span></td><td><button class="btn btn-green btn-sm" style="padding:3px 8px;font-size:10px" onclick="toast('✅ R$300 enviado para João! Recibo enviado via WhatsApp.')">Pagar + Recibo</button></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--green);color:#000">A</div>Ana Rocha</div></td><td>Casamento 10/08</td><td style="font-family:'JetBrains Mono',monospace">R$380</td><td style="color:var(--text3)">—</td><td>PIX</td><td><span class="badge bg-gr">Pendente</span></td><td><span class="badge bg-gd">Pendente</span></td><td><button class="btn btn-green btn-sm" style="padding:3px 8px;font-size:10px" onclick="toast('✅ R$380 enviado para Ana! Recibo enviado via WhatsApp.')">Pagar + Recibo</button></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--blue);color:#fff">C</div>Carlos Melo</div></td><td>Formatura 01/08</td><td style="font-family:'JetBrains Mono',monospace">R$300</td><td style="color:var(--text3)">—</td><td>Dinheiro</td><td><span class="badge bg-tl">✓ Enviado</span></td><td><span class="badge bg-gn">Pago</span></td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="toast('📄 Recibo de Carlos gerado em PDF!')">Ver Recibo</button></td></tr>
+            <tr style="background:var(--red-dim)"><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--red);color:#fff">P</div>Pedro Lima</div></td><td>Aniversário 28/07</td><td style="font-family:'JetBrains Mono',monospace">R$220</td><td style="color:var(--text3)">—</td><td>PIX</td><td><span class="badge bg-gr">—</span></td><td><span class="badge bg-rd">Atrasado</span></td><td><button class="btn btn-red btn-sm" style="padding:3px 8px;font-size:10px;color:#fff" onclick="toast('✅ Pagamento atrasado regularizado! Recibo enviado.')">Regularizar</button></td></tr>
+          </tbody></table></div>
+        </div>
+      </div>
+
+      <!-- CHECK-IN -->
+      <div id="panel-checkin" class="panel">
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">📍 Check-in em Tempo Real</span><span class="badge bg-gn">Evento ativo</span></div>
+            <div class="cb">
+              <div class="al al-gold" style="margin-bottom:12px"><strong>Casamento Ana & Pedro</strong> · Casa de Festas Imperial · 15/08/2026</div>
+              <div class="cir"><div class="av" style="background:var(--green);color:#000">J</div><div style="flex:1"><div style="font-weight:600;font-size:12px">João Silva — Garçom</div><div style="font-size:10px;color:var(--text3)">Check-in: 14:52 · 📸 Selfie ✓</div></div><span class="cit">02h18</span><span class="badge bg-gn">Presente</span></div>
+              <div class="cir"><div class="av" style="background:var(--green);color:#000">A</div><div style="flex:1"><div style="font-weight:600;font-size:12px">Ana Rocha — Maître</div><div style="font-size:10px;color:var(--text3)">Check-in: 14:48 · 📸 Selfie ✓</div></div><span class="cit">02h22</span><span class="badge bg-gn">Presente</span></div>
+              <div class="cir"><div class="av" style="background:var(--gold);color:#000">C</div><div style="flex:1"><div style="font-weight:600;font-size:12px">Carlos Melo — Barman</div><div style="font-size:10px;color:var(--text3)">Check-in: 15:05 · 📸 Selfie ✓</div></div><span class="cit">02h05</span><span class="badge bg-gn">Presente</span></div>
+              <div class="cir" style="background:var(--red-dim)"><div class="av" style="background:var(--red);color:#fff">R</div><div style="flex:1"><div style="font-weight:600;font-size:12px">Roberto Alves — Garçom</div><div style="font-size:10px;color:var(--red)">Sem check-in · Atrasado 18 min</div></div><span class="cit">—</span><span class="badge bg-rd">Ausente</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="ch"><span class="ct">Resumo</span></div>
+              <div class="cb">
+                <div class="g2" style="margin-bottom:14px">
+                  <div style="background:var(--surface2);border-radius:9px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--green)">19</div><div style="font-size:10px;color:var(--text3)">Presentes</div></div>
+                  <div style="background:var(--surface2);border-radius:9px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--red)">2</div><div style="font-size:10px;color:var(--text3)">Ausentes</div></div>
+                  <div style="background:var(--surface2);border-radius:9px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--gold)">+1.5h</div><div style="font-size:10px;color:var(--text3)">Horas extras</div></div>
+                  <div style="background:var(--surface2);border-radius:9px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--blue)">19/21</div><div style="font-size:10px;color:var(--text3)">Selfies ✓</div></div>
+                </div>
+                <button class="btn btn-gold" onclick="toast('📄 Relatório pós-evento gerado e enviado ao cliente!')">📊 Gerar Relatório Pós-Evento</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="ch"><span class="ct">📱 App do Profissional</span><span style="font-size:10px;color:var(--text3)">Como João vê</span></div>
+              <div class="cb" style="padding:12px">
+                <div class="mobile-frame">
+                  <div class="mf-bar"><span>⚡ Staff Eventos</span><span>🔋 84%</span></div>
+                  <div class="mf-body">
+                    <div class="app-home">
+                      <div style="font-size:10px;color:var(--text3);margin-bottom:4px;font-family:'JetBrains Mono',monospace">PRÓXIMO EVENTO</div>
+                      <div class="app-event-name">Casamento Ana & Pedro</div>
+                      <div class="app-event-info">📅 15/08 · ⏰ 15h00 · 📍 Casa Festas Imperial</div>
+                      <button class="app-checkin-btn" onclick="toast('📍 Check-in de João Silva registrado! 14:52h · GPS ✓ · Selfie ✓')">📍 FAZER CHECK-IN</button>
+                    </div>
+                    <div class="app-valor">
+                      <div class="av-lbl">Você vai receber</div>
+                      <div class="av-val">R$ 250,00</div>
+                      <div class="av-lbl">PIX · Até 48h após o evento</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BANCO DE TALENTOS (NOVO) -->
+      <div id="panel-talentos" class="panel">
+        <div class="al al-blue" style="margin-bottom:16px">🌟 Profissionais com perfil público ativo podem ser encontrados por outras empresas na plataforma.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div style="display:flex;gap:7px"><select class="field" style="width:160px;padding:7px 12px"><option>Todas as funções</option><option>Garçom</option><option>Barman</option><option>Maître</option></select><select class="field" style="width:140px;padding:7px 12px"><option>Todos os estados</option><option>SP</option><option>RJ</option><option>MG</option></select></div>
+          <span style="font-size:12px;color:var(--text3)">247 profissionais disponíveis</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
+          <div class="talent-card"><div class="talent-av" style="background:var(--gold);color:#000">J</div><div class="talent-name">João Silva</div><div class="talent-role">Garçom · SP</div><div><span class="stars" style="font-size:11px">★★★★★</span> <span style="font-size:10px;color:var(--text3)">4.9 · 47 eventos</span></div><div class="talent-link" style="margin-top:6px">staffeventos.com.br/joaosilva</div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:10px;padding:6px" onclick="toast('📲 Convite enviado para João Silva!')">Contratar</button></div>
+          <div class="talent-card"><div class="talent-av" style="background:var(--green);color:#000">A</div><div class="talent-name">Ana Rocha</div><div class="talent-role">Maître · SP</div><div><span class="stars" style="font-size:11px">★★★★★</span> <span style="font-size:10px;color:var(--text3)">4.8 · 35 eventos</span></div><div class="talent-link" style="margin-top:6px">staffeventos.com.br/anarocha</div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:10px;padding:6px" onclick="toast('📲 Convite enviado para Ana Rocha!')">Contratar</button></div>
+          <div class="talent-card"><div class="talent-av" style="background:var(--blue);color:#fff">C</div><div class="talent-name">Carlos Melo</div><div class="talent-role">Barman · SP</div><div><span class="stars" style="font-size:11px">★★★★☆</span> <span style="font-size:10px;color:var(--text3)">4.2 · 28 eventos</span></div><div class="talent-link" style="margin-top:6px">staffeventos.com.br/carlosmelo</div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:10px;padding:6px" onclick="toast('📲 Convite enviado para Carlos Melo!')">Contratar</button></div>
+          <div class="talent-card"><div class="talent-av" style="background:var(--purple);color:#fff">P</div><div class="talent-name">Priscila Torres</div><div class="talent-role">Copeira · SP</div><div><span class="stars" style="font-size:11px">★★★★☆</span> <span style="font-size:10px;color:var(--text3)">4.0 · 21 eventos</span></div><div class="talent-link" style="margin-top:6px">staffeventos.com.br/priscila</div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:10px;padding:6px" onclick="toast('📲 Convite enviado para Priscila Torres!')">Contratar</button></div>
+          <div class="talent-card"><div class="talent-av" style="background:var(--teal);color:#000">F</div><div class="talent-name">Felipe Souza</div><div class="talent-role">Garçom · SP</div><div><span class="stars" style="font-size:11px">★★★★★</span> <span style="font-size:10px;color:var(--text3)">4.9 · 38 eventos</span></div><div class="talent-link" style="margin-top:6px">staffeventos.com.br/felipesouza</div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:10px;padding:6px" onclick="toast('📲 Convite enviado para Felipe Souza!')">Contratar</button></div>
+          <div class="talent-card" style="border:2px dashed var(--border);cursor:default;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px"><div style="font-size:28px;margin-bottom:8px">+</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Criar Perfil Público</div><div style="font-size:11px;color:var(--text3);text-align:center">Seu profissional pode divulgar o perfil nas redes sociais</div></div>
+        </div>
+      </div>
+
+      <!-- AVALIACOES -->
+      <div id="panel-avaliacoes" class="panel">
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">⭐ Avaliar Profissional</span><span style="font-size:11px;color:var(--text3)">Casamento 15/08</span></div>
+            <div class="cb">
+              <div style="background:var(--surface2);border-radius:9px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center"><div class="av" style="background:var(--gold);color:#000;width:40px;height:40px;font-size:17px">J</div><div><div style="font-weight:700">João Silva</div><div style="font-size:11px;color:var(--text3)">Garçom · 8h trabalhadas</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Pontualidade</span><span class="stars" onclick="this.innerHTML='★★★★★'">★★★★☆</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Aparência</span><span class="stars" onclick="this.innerHTML='★★★★★'">★★★★★</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Postura</span><span class="stars" onclick="this.innerHTML='★★★★★'">★★★★★</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Trabalho em equipe</span><span class="stars" onclick="this.innerHTML='★★★★★'">★★★★★</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Qualidade do serviço</span><span class="stars" onclick="this.innerHTML='★★★★★'">★★★★★</span></div>
+              </div>
+              <textarea class="field" rows="2" placeholder="Observações..." style="margin-top:12px;resize:none"></textarea>
+              <button class="btn btn-gold" style="margin-top:10px" onclick="toast('⭐ Avaliação salva! Perfil de João atualizado. Média: 4.9')">Salvar Avaliação</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">🏆 Ranking</span></div>
+            <div style="padding:0"><table><thead><tr><th>#</th><th>Profissional</th><th>Média</th><th>Eventos</th></tr></thead><tbody>
+              <tr style="background:var(--gold-dim)"><td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold)">1°</td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--gold);color:#000">J</div>João Silva</div></td><td><span class="stars" style="font-size:11px">★★★★★</span> 4.9</td><td>47</td></tr>
+              <tr><td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text2)">2°</td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--green);color:#000">A</div>Ana Rocha</div></td><td><span class="stars" style="font-size:11px">★★★★★</span> 4.8</td><td>35</td></tr>
+              <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--text3)">3°</td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--blue);color:#fff">C</div>Carlos Melo</div></td><td><span class="stars" style="font-size:11px">★★★★☆</span> 4.2</td><td>28</td></tr>
+              <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--text3)">4°</td><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="background:var(--teal);color:#000">F</div>Felipe Souza</div></td><td><span class="stars" style="font-size:11px">★★★★★</span> 4.9</td><td>38</td></tr>
+            </tbody></table></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RELATORIOS -->
+      <div id="panel-relatorios" class="panel">
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">📊 Relatórios Disponíveis</span></div>
+            <div class="cb" style="display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:11px;background:var(--surface2);border-radius:8px"><div><div style="font-weight:600;font-size:13px">Pós-Evento Automático</div><div style="font-size:10px;color:var(--text3)">Gerado ao encerrar o evento</div></div><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📄 Relatório pós-evento exportado!')">PDF</button></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:11px;background:var(--surface2);border-radius:8px"><div><div style="font-weight:600;font-size:13px">Financeiro Mensal</div><div style="font-size:10px;color:var(--text3)">Gastos, pagamentos, recibos</div></div><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📄 Financeiro exportado!')">PDF</button><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📊 Excel exportado!')">Excel</button></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:11px;background:var(--surface2);border-radius:8px"><div><div style="font-weight:600;font-size:13px">Desempenho da Equipe</div><div style="font-size:10px;color:var(--text3)">Ranking, faltas, avaliações</div></div><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📄 Desempenho exportado!')">PDF</button><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📊 Excel exportado!')">Excel</button></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:11px;background:var(--surface2);border-radius:8px"><div><div style="font-weight:600;font-size:13px">Folha de Ponto</div><div style="font-size:10px;color:var(--text3)">Check-in/out por evento</div></div><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📄 Folha de ponto exportada!')">PDF</button><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📊 Excel exportado!')">Excel</button></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:11px;background:var(--surface2);border-radius:8px"><div><div style="font-weight:600;font-size:13px">Horas Extras</div><div style="font-size:10px;color:var(--text3)">Por evento e profissional</div></div><div style="display:flex;gap:5px"><button class="btn btn-out btn-sm" style="padding:4px 9px;font-size:10px" onclick="toast('📄 H.Extras exportadas!')">PDF</button></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Faturamento — 6 meses</span></div>
+            <div class="cb">
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--text2)"><span>Mar/26</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text)">R$9.800</span></div><div class="prog"><div class="pf pf-gd" style="width:49%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--text2)"><span>Abr/26</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text)">R$12.400</span></div><div class="prog"><div class="pf pf-gd" style="width:62%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--text2)"><span>Mai/26</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text)">R$11.200</span></div><div class="prog"><div class="pf pf-gd" style="width:56%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--text2)"><span>Jun/26</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text)">R$15.100</span></div><div class="prog"><div class="pf pf-gd" style="width:76%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--text2)"><span>Jul/26</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text)">R$16.900</span></div><div class="prog"><div class="pf pf-gd" style="width:85%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--text2)"><span style="font-weight:600;color:var(--text)">Ago/26</span><span style="font-family:'JetBrains Mono',monospace;color:var(--green)">R$18.400</span></div><div class="prog"><div class="pf pf-gn" style="width:92%"></div></div></div>
+              </div>
+              <div style="margin-top:14px;background:var(--green-dim);border-radius:7px;padding:10px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:var(--green)">Crescimento 6 meses</span><span style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--green)">+87,8%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- USUARIOS -->
+      <div id="panel-usuarios" class="panel">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-gold btn-sm" onclick="openM('m-user')">+ Novo Usuário</button></div>
+        <div class="card">
+          <div class="tw"><table><thead><tr><th>Usuário</th><th>Perfil</th><th>Eventos</th><th>Escalas</th><th>Financeiro</th><th>Contratos</th><th>Usuários</th><th></th></tr></thead><tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--gold);color:#000">M</div><div><div style="font-weight:600">Maria Clara</div><div style="font-size:10px;color:var(--text3)">Proprietária</div></div></div></td><td><span class="badge bg-gd">👑 Owner</span></td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--green)">✓</td><td>—</td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--blue);color:#fff">R</div><div><div style="font-weight:600">Ricardo Mendes</div><div style="font-size:10px;color:var(--text3)">Supervisor de Eventos</div></div></div></td><td><span class="badge bg-bl">🛡️ Admin</span></td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--red)">✗</td><td style="text-align:center;color:var(--green)">✓</td><td style="text-align:center;color:var(--red)">✗</td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="openM('m-user')">Editar</button></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="background:var(--purple);color:#fff">F</div><div><div style="font-weight:600">Fernanda Lima</div><div style="font-size:10px;color:var(--text3)">Op. Campo (Check-in)</div></div></div></td><td><span class="badge bg-or">📍 Operador</span></td><td style="text-align:center;color:var(--blue)">👁</td><td style="text-align:center;color:var(--red)">✗</td><td style="text-align:center;color:var(--red)">✗</td><td style="text-align:center;color:var(--red)">✗</td><td style="text-align:center;color:var(--red)">✗</td><td><button class="btn btn-out btn-sm" style="padding:3px 8px;font-size:10px" onclick="openM('m-user')">Editar</button></td></tr>
+          </tbody></table></div>
+        </div>
+      </div>
+
+      <!-- CLIENTES -->
+      <div id="panel-clientes" class="panel">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-gold btn-sm" onclick="openM('m-cliente')">+ Cadastrar Cliente</button></div>
+        <div class="card"><div class="tw"><table><thead><tr><th>Empresa</th><th>CNPJ</th><th>Responsável</th><th>Eventos</th><th>Total gasto</th></tr></thead><tbody>
+          <tr><td><div><div style="font-weight:600">Casa de Festas Imperial</div><div style="font-size:10px;color:var(--text3)">Imperial Eventos</div></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:11px">12.345.678/0001-90</td><td>Carlos Imperial</td><td style="font-family:'JetBrains Mono',monospace">14</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gold)">R$74.200</td></tr>
+          <tr><td><div><div style="font-weight:600">TechBrasil S/A</div></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:11px">98.765.432/0001-10</td><td>Marcos Tech</td><td style="font-family:'JetBrains Mono',monospace">7</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gold)">R$38.900</td></tr>
+        </tbody></table></div></div>
+      </div>
+
+      <!-- NOTIFICACOES -->
+      <div id="panel-notificacoes" class="panel">
+        <div class="card" style="max-width:600px">
+          <div class="ch"><span class="ct">🔔 Notificações</span><span style="font-size:11px;color:var(--gold);cursor:pointer" onclick="toast('✓ Todas marcadas como lidas')">Marcar tudo como lido</span></div>
+          <div class="cb" style="padding:8px">
+            <div class="nitem unread"><div class="ndot2"></div><div><div style="font-weight:600;font-size:12px">🔄 Substituição necessária</div><div style="font-size:11px;color:var(--text2)">Lucas Prado recusou Casamento 15/08. 3 substitutos sugeridos.</div><div style="font-size:10px;color:var(--text3);margin-top:3px">5 min atrás · <span style="color:var(--gold);cursor:pointer" onclick="P('substituicao',null)">Ver substitutos →</span></div></div></div>
+            <div class="nitem unread"><div class="ndot2"></div><div><div style="font-weight:600;font-size:12px">📋 Contrato assinado</div><div style="font-size:11px;color:var(--text2)">João Silva assinou o contrato do Casamento Ana & Pedro digitalmente.</div><div style="font-size:10px;color:var(--text3);margin-top:3px">12 min atrás</div></div></div>
+            <div class="nitem unread"><div class="ndot2"></div><div><div style="font-weight:600;font-size:12px">✅ Roberto Alves confirmou</div><div style="font-size:11px;color:var(--text2)">Roberto confirmou presença no Casamento 15/08.</div><div style="font-size:10px;color:var(--text3);margin-top:3px">23 min atrás</div></div></div>
+            <div class="nitem"><div class="ndot2 read"></div><div><div style="font-weight:600;font-size:12px">🧾 Recibo automático enviado</div><div style="font-size:11px;color:var(--text2)">Carlos Melo recebeu o recibo de R$300 via WhatsApp (Formatura 01/08).</div><div style="font-size:10px;color:var(--text3);margin-top:3px">2h atrás</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONFIG -->
+      <div id="panel-config" class="panel">
+        <div class="g2" style="max-width:860px">
+          <div class="card">
+            <div class="ch"><span class="ct">🏢 Dados da Empresa</span><button class="btn btn-out btn-sm" onclick="toast('✅ Dados salvos!')">Salvar</button></div>
+            <div class="cb">
+              <div style="text-align:center;margin-bottom:14px"><div style="width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#C87800);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 8px">⚡</div><button class="btn btn-out btn-sm" onclick="toast('📸 Logomarca atualizada!')">Alterar logomarca</button></div>
+              <div class="fg"><label>Nome da empresa</label><input class="field" value="Buffet Imperial"></div>
+              <div class="fg"><label>E-mail</label><input class="field" value="contato@buffetimperial.com.br" type="email"></div>
+              <div class="fg"><label>Telefone</label><input class="field" value="(11) 3333-0001"></div>
+              <div class="fg"><label>Plano atual</label><div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center"><span style="color:var(--gold);font-weight:700">⚡ Plano Profissional — R$297/mês</span><button class="btn btn-out btn-sm" onclick="toast('🚀 Redirecionando para upgrade...')">Upgrade</button></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">🔐 Segurança & Preferências</span></div>
+            <div class="cb">
+              <div class="fg"><label>Senha atual</label><input class="field" type="password" placeholder="••••••••"></div>
+              <div class="fg"><label>Nova senha</label><input class="field" type="password" placeholder="Mínimo 8 caracteres"></div>
+              <button class="btn btn-gold" style="margin-bottom:16px" onclick="toast('🔐 Senha alterada com sucesso!')">Alterar senha</button>
+              <div class="pr"><div><div class="pname">Autenticação em 2 fatores</div><div class="pdesc">Segurança extra no login</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="pr"><div><div class="pname">Convocações WhatsApp automáticas</div><div class="pdesc">Enviar após confirmar escala</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="pr"><div><div class="pname">Lembrete D-1 para profissionais</div><div class="pdesc">WhatsApp na véspera do evento</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="pr"><div><div class="pname">Lembrete 2h antes do evento</div><div class="pdesc">Alerta de horário de chegada</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="pr"><div><div class="pname">Relatório pós-evento automático</div><div class="pdesc">PDF gerado ao encerrar</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="pr"><div><div class="pname">Recibo automático ao pagar</div><div class="pdesc">Enviado via WhatsApp</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODALS -->
+<div id="m-evento" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">📅 Novo Evento</span><button class="mc" onclick="closeM('m-evento')">✕</button></div>
+  <div class="fg"><label>Nome do Evento</label><input class="field" placeholder="Ex: Casamento dos noivos..."></div>
+  <div class="fr"><div class="fg"><label>Tipo</label><select class="field"><option>Casamento</option><option>15 anos</option><option>Formatura</option><option>Corporativo</option><option>Churrasco</option><option>Infantil</option><option>Aniversário</option></select></div><div class="fg"><label>Cliente</label><select class="field"><option>Casa de Festas Imperial</option><option>TechBrasil S/A</option></select></div></div>
+  <div class="fr"><div class="fg"><label>Data</label><input class="field" type="date"></div><div class="fg"><label>Convidados</label><input class="field" type="number" placeholder="0"></div></div>
+  <div class="fr"><div class="fg"><label>Chegada equipe</label><input class="field" type="time" value="15:00"></div><div class="fg"><label>Início</label><input class="field" type="time" value="18:00"></div></div>
+  <div class="fg"><label>Endereço completo</label><input class="field" placeholder="Rua, número, bairro, cidade"></div>
+  <div class="fg"><label>Observações</label><textarea class="field" rows="2" placeholder="Informações adicionais..." style="resize:none"></textarea></div>
+  <div class="al al-gold">⚠️ Este evento poderá gerar horas extras conforme necessidade do cliente.</div>
+  <button class="btn btn-gold" onclick="closeM('m-evento');toast('✅ Evento criado! Agora escale a equipe e envie contratos.')">Criar Evento</button>
+</div></div>
+
+<div id="m-user" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">👤 Novo Usuário</span><button class="mc" onclick="closeM('m-user')">✕</button></div>
+  <div class="fr"><div class="fg"><label>Nome completo</label><input class="field" placeholder="Nome do usuário"></div><div class="fg"><label>E-mail de acesso</label><input class="field" type="email" placeholder="email@empresa.com"></div></div>
+  <div class="fr"><div class="fg"><label>Cargo</label><input class="field" placeholder="Ex: Supervisor de eventos"></div><div class="fg"><label>Celular</label><input class="field" placeholder="(11) 99999-0000"></div></div>
+  <div class="fg"><label>Perfil de Acesso</label>
+    <div class="rgrid">
+      <div class="ropt sel" onclick="document.querySelectorAll('#m-user .ropt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')"><div class="ri">🛡️</div><div class="rn">Administrador</div><div class="rd">Cria eventos e escala</div></div>
+      <div class="ropt" onclick="document.querySelectorAll('#m-user .ropt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')"><div class="ri">👁️</div><div class="rn">Supervisor</div><div class="rd">Somente visualiza</div></div>
+      <div class="ropt" onclick="document.querySelectorAll('#m-user .ropt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')"><div class="ri">📍</div><div class="rn">Operador</div><div class="rd">Check-in apenas</div></div>
+    </div>
+  </div>
+  <div class="fg"><label>Permissões</label>
+    <div style="background:var(--surface2);border-radius:9px;padding:12px">
+      <div class="pr"><div><div class="pname">Criar e editar eventos</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><div><div class="pname">Escalar profissionais</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><div><div class="pname">Convocar via WhatsApp</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><div><div class="pname">Emitir contratos digitais</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><div><div class="pname">Visualizar financeiro</div></div><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><div><div class="pname">Aprovar pagamentos</div></div><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+    </div>
+  </div>
+  <div class="fg"><label>Senha temporária</label><input class="field" type="password" placeholder="Usuário trocará no 1° acesso"></div>
+  <button class="btn btn-gold" onclick="closeM('m-user');toast('✅ Usuário criado! Senha temporária enviada por e-mail.')">Criar Usuário</button>
+</div></div>
+
+<div id="m-prof" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">👥 Novo Profissional</span><button class="mc" onclick="closeM('m-prof')">✕</button></div>
+  <div class="fr"><div class="fg"><label>Nome completo</label><input class="field" placeholder="Nome completo"></div><div class="fg"><label>CPF</label><input class="field" placeholder="000.000.000-00"></div></div>
+  <div class="fr"><div class="fg"><label>Função</label><select class="field"><option>Garçom</option><option>Copeiro</option><option>Maître</option><option>Barman</option><option>Cozinheiro</option><option>DJ</option><option>Segurança</option><option>Limpeza</option></select></div><div class="fg"><label>WhatsApp</label><input class="field" placeholder="(11) 99999-0000"></div></div>
+  <div class="fr"><div class="fg"><label>Cachê padrão (R$)</label><input class="field" type="number" placeholder="0,00"></div><div class="fg"><label>Pagamento padrão</label><select class="field"><option>PIX</option><option>Dinheiro</option><option>Transferência</option></select></div></div>
+  <div class="fg"><label>Chave PIX</label><input class="field" placeholder="CPF, telefone ou e-mail"></div>
+  <div class="fg"><label>Perfil público no Banco de Talentos</label>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">Ativar perfil público compartilhável</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+  </div>
+  <button class="btn btn-gold" onclick="closeM('m-prof');toast('✅ Profissional cadastrado! Perfil público criado em staffeventos.com.br/')">Cadastrar Profissional</button>
+</div></div>
+
+<div id="m-disp" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">📅 Disponibilidade — João Silva</span><button class="mc" onclick="closeM('m-disp')">✕</button></div>
+  <div class="al al-blue" style="margin-bottom:14px">João atualiza sua disponibilidade pelo app. Você também pode editar aqui.</div>
+  <p style="font-size:12px;color:var(--text3);margin-bottom:10px">Agosto 2026 — Clique para alterar:</p>
+  <div class="disp-grid">
+    <div><div class="dd">DOM</div><div class="dn">10</div></div>
+    <div class="disp-day on"><div class="dd">SEG</div><div class="dn">11</div></div>
+    <div class="disp-day on"><div class="dd">TER</div><div class="dn">12</div></div>
+    <div class="disp-day on"><div class="dd">QUA</div><div class="dn">13</div></div>
+    <div class="disp-day on"><div class="dd">QUI</div><div class="dn">14</div></div>
+    <div class="disp-day on"><div class="dd">SEX</div><div class="dn">15</div></div>
+    <div class="disp-day off"><div class="dd">SAB</div><div class="dn">16</div></div>
+    <div class="disp-day"><div class="dd">DOM</div><div class="dn">17</div></div>
+    <div class="disp-day on"><div class="dd">SEG</div><div class="dn">18</div></div>
+    <div class="disp-day on"><div class="dd">TER</div><div class="dn">19</div></div>
+    <div class="disp-day off"><div class="dd">QUA</div><div class="dn">20</div></div>
+    <div class="disp-day on"><div class="dd">QUI</div><div class="dn">21</div></div>
+    <div class="disp-day on"><div class="dd">SEX</div><div class="dn">22</div></div>
+    <div class="disp-day on"><div class="dd">SAB</div><div class="dn">23</div></div>
+  </div>
+  <div style="display:flex;gap:14px;font-size:11px;margin-bottom:16px;color:var(--text3)"><span style="color:var(--green)">■ Disponível</span><span style="color:var(--red)">■ Indisponível</span><span>■ Não definido</span></div>
+  <button class="btn btn-gold" onclick="closeM('m-disp');toast('✅ Disponibilidade de João Silva atualizada!')">Salvar Disponibilidade</button>
+</div></div>
+
+<div id="m-subst" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">🔄 Substituir Profissional</span><button class="mc" onclick="closeM('m-subst')">✕</button></div>
+  <div class="al al-blue" style="margin-bottom:14px">🤖 A IA listou os melhores substitutos disponíveis para esta função e data.</div>
+  <div class="sub-card best" onclick="closeM('m-subst');toast('✅ Felipe Souza adicionado como substituto! WhatsApp enviado.')"><div class="av" style="background:var(--green);color:#000;width:36px;height:36px;font-size:15px">F</div><div style="flex:1"><div style="font-weight:700">Felipe Souza</div><div style="font-size:11px;color:var(--text2)">Garçom · ★★★★★ · Disponível · 3.2km</div></div><span class="badge bg-gn">Melhor opção</span></div>
+  <div class="sub-card" onclick="closeM('m-subst');toast('✅ Mateus Lima adicionado! WhatsApp enviado.')"><div class="av" style="background:var(--blue);color:#fff;width:36px;height:36px;font-size:15px">M</div><div style="flex:1"><div style="font-weight:700">Mateus Lima</div><div style="font-size:11px;color:var(--text2)">Garçom · ★★★★☆ · Disponível · 6.8km</div></div></div>
+  <div class="sub-card" onclick="closeM('m-subst');toast('✅ Diego Martins adicionado! WhatsApp enviado.')"><div class="av" style="background:var(--purple);color:#fff;width:36px;height:36px;font-size:15px">D</div><div style="flex:1"><div style="font-weight:700">Diego Martins</div><div style="font-size:11px;color:var(--text2)">Garçom · ★★★★☆ · Disponível · 9.1km</div></div></div>
+</div></div>
+
+<div id="m-staff" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">⚡ Adicionar à Escala</span><button class="mc" onclick="closeM('m-staff')">✕</button></div>
+  <div class="fr"><div class="fg"><label>Função</label><select class="field"><option>Garçom</option><option>Copeiro</option><option>Maître</option><option>Barman</option><option>Cozinheiro</option></select></div><div class="fg"><label>Quantidade</label><input class="field" type="number" value="1" min="1"></div></div>
+  <div class="fg"><label>Profissional</label><select class="field"><option>Felipe Souza (★★★★★) — Disponível</option><option>Ana Rocha (★★★★★) — Disponível</option><option>Carlos Melo (★★★★☆) — Disponível</option></select></div>
+  <div class="fr"><div class="fg"><label>Cachê (R$)</label><input class="field" type="number" value="250"></div><div class="fg"><label>Pagamento</label><select class="field"><option>PIX</option><option>Dinheiro</option></select></div></div>
+  <div class="fg" style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">Gerar contrato automaticamente</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+  <button class="btn btn-gold" onclick="closeM('m-staff');toast('✅ Profissional adicionado à escala! Contrato gerado e enviado via WhatsApp.')">Adicionar à Escala</button>
+</div></div>
+
+<div id="m-cliente" class="mo"><div class="mbox">
+  <div class="mh"><span class="mt">🏢 Novo Cliente</span><button class="mc" onclick="closeM('m-cliente')">✕</button></div>
+  <div class="fr"><div class="fg"><label>Razão Social</label><input class="field" placeholder="Nome jurídico"></div><div class="fg"><label>CNPJ</label><input class="field" placeholder="00.000.000/0001-00"></div></div>
+  <div class="fr"><div class="fg"><label>Nome Fantasia</label><input class="field" placeholder="Nome comercial"></div><div class="fg"><label>Responsável</label><input class="field" placeholder="Nome do contato"></div></div>
+  <div class="fr"><div class="fg"><label>Telefone</label><input class="field" placeholder="(11) 99999-0000"></div><div class="fg"><label>E-mail</label><input class="field" type="email" placeholder="cliente@email.com"></div></div>
+  <div class="fg"><label>Endereço</label><input class="field" placeholder="Rua, número, cidade"></div>
+  <button class="btn btn-gold" onclick="closeM('m-cliente');toast('✅ Cliente cadastrado com sucesso!')">Cadastrar Cliente</button>
+</div></div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" style="display:none"><span id="t-icon" style="font-size:18px;flex-shrink:0">✅</span><div id="t-msg" style="font-size:13px">Mensagem</div></div>
+
+<script>
+// STATE
+let role='owner', cStep=1;
+const U={
+  owner:{n:'Maria Clara',co:'Buffet Imperial',r:'Proprietária',rb:'rb-own',av:'var(--gold)',tc:'#000',i:'M'},
+  admin:{n:'Ricardo Mendes',co:'Buffet Imperial',r:'Administrador',rb:'rb-adm',av:'var(--blue)',tc:'#fff',i:'R'},
+  viewer:{n:'Fernanda Lima',co:'Buffet Imperial',r:'Supervisora',rb:'rb-view',av:'var(--purple)',tc:'#fff',i:'F'},
+};
+
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(t==='c'&&i===0)||(t==='l'&&i===1)));
+  document.getElementById('fc').classList.toggle('active',t==='c');
+  document.getElementById('fl').classList.toggle('active',t==='l');
+}
+function goStep(n){
+  document.getElementById('cs'+cStep).style.display='none';
+  const d=document.getElementById('sd'+cStep);
+  d.classList.remove('active');d.classList.add('done');d.innerHTML='✓';
+  if(cStep<3)document.getElementById('sl'+cStep).classList.add('done');
+  cStep=n;
+  document.getElementById('cs'+n).style.display='block';
+  document.getElementById('sd'+n).classList.add('active');
+  document.getElementById('st'+n).classList.add('active');
+}
+function selPlan(el){document.querySelectorAll('.popt').forEach(e=>e.classList.remove('sel'));el.classList.add('sel')}
+function selRole(el,r){document.querySelectorAll('#fl .ropt').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');role=r}
+function prevLogo(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const i=document.getElementById('lp');i.src=ev.target.result;i.style.display='block';document.getElementById('lph').style.display='none'};r.readAsDataURL(f)}
+function finCad(){toast('🎉 Conta criada! Bem-vindo ao Staff Eventos!');setTimeout(()=>demoLogin('owner'),1500)}
+function doLogin(){demoLogin(role)}
+function demoLogin(r){
+  role=r;const u=U[r];
+  document.getElementById('sbav').style.background=u.av;
+  document.getElementById('sbav').style.color=u.tc;
+  document.getElementById('sbav').textContent=u.i;
+  document.getElementById('tpav').style.background=u.av;
+  document.getElementById('tpav').style.color=u.tc;
+  document.getElementById('tpav').textContent=u.i;
+  document.getElementById('sbname').textContent=u.n;
+  document.getElementById('sbco').textContent=u.co;
+  const rb=document.getElementById('sbrole');
+  rb.textContent=u.r;rb.className='rbadge '+u.rb;
+  applyPerms(r);
+  document.getElementById('screen-landing').classList.remove('active');
+  document.getElementById('screen-app').classList.add('active');
+  toast('👋 Bem-vindo(a), '+u.n+'!');
+  P('dashboard',null);
+}
+function applyPerms(r){
+  const fin=document.getElementById('n-fin');
+  const sys=document.getElementById('n-sys');
+  if(r==='owner'){fin.style.display='';sys.style.display='';}
+  else if(r==='admin'){fin.style.display='';sys.style.display='none';}
+  else{fin.style.display='none';sys.style.display='none';}
+}
+function doLogout(){
+  document.getElementById('screen-app').classList.remove('active');
+  document.getElementById('screen-landing').classList.add('active');
+  switchTab('l');toast('👋 Você saiu da plataforma.');
+}
+
+function P(id,navEl){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const pl=document.getElementById('panel-'+id);
+  if(pl)pl.classList.add('active');
+  if(navEl){document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
+  const T={
+    dashboard:['Dashboard','Visão geral da operação'],
+    eventos:['Eventos','Agenda e gestão de eventos'],
+    escala:['Escalar Equipe','Casamento Ana & Pedro · 15/08'],
+    profissionais:['Profissionais','84 cadastrados'],
+    pagamentos:['Pagamentos','Aprovações e recibos'],
+    relatorios:['Relatórios','Exportações e análises'],
+    clientes:['Clientes','Base de clientes'],
+    avaliacoes:['Avaliações','Ranking de desempenho'],
+    checkin:['Check-in / Check-out','Controle de presença + app'],
+    contratos:['Contratos Digitais','Assinatura pelo celular'],
+    substituicao:['Substituições','Sugestões inteligentes'],
+    talentos:['Banco de Talentos','Perfis públicos'],
+    usuarios:['Usuários & Acessos','Perfis e permissões'],
+    config:['Configurações','Empresa e sistema'],
+    notificacoes:['Notificações','Alertas em tempo real'],
+  };
+  if(T[id]){document.getElementById('ptitle').textContent=T[id][0];document.getElementById('psub').textContent=T[id][1];}
+}
+
+function openM(id){document.getElementById(id).classList.add('open')}
+function closeM(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.mo').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+
+let _tt;
+function toast(msg){
+  const t=document.getElementById('toast'),m=document.getElementById('t-msg');
+  m.innerHTML=msg;t.style.display='flex';t.classList.remove('hide');
+  clearTimeout(_tt);_tt=setTimeout(()=>{t.classList.add('hide');setTimeout(()=>t.style.display='none',250)},3500);
+}
+
+// masks
+function mCNPJ(el){let v=el.value.replace(/\D/g,'');v=v.replace(/^(\d{2})(\d)/,'$1.$2');v=v.replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3');v=v.replace(/\.(\d{3})(\d)/,'.$1/$2');v=v.replace(/(\d{4})(\d)/,'$1-$2');el.value=v}
+function mCPF(el){let v=el.value.replace(/\D/g,'');v=v.replace(/(\d{3})(\d)/,'$1.$2');v=v.replace(/(\d{3})\.(\d{3})(\d)/,'$1.$2.$3');v=v.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/,'$1.$2.$3-$4');el.value=v}
+function mPhone(el){let v=el.value.replace(/\D/g,'');v=v.replace(/^(\d{2})(\d)/,'($1) $2');v=v.replace(/(\d{5})(\d)/,'$1-$2');el.value=v}
+function mCEP(el){let v=el.value.replace(/\D/g,'');v=v.replace(/(\d{5})(\d)/,'$1-$2');el.value=v}
+function mCard(el){let v=el.value.replace(/\D/g,'');v=v.replace(/(\d{4})/g,'$1 ').trim();el.value=v}
+function bCNPJ(v){if(v.replace(/\D/g,'').length===14){document.getElementById('razao').value='Buffet Imperial Ltda';document.getElementById('fantasia').value='Buffet Imperial';toast('✅ CNPJ encontrado! Dados preenchidos automaticamente.')}}
+function toggleCardFields(el){document.getElementById('card-fields').style.display=el.value.includes('PIX')||el.value.includes('Boleto')?'none':'block'}
+
+// disponibilidade toggle
+document.querySelectorAll('.disp-day').forEach(d=>{
+  d.addEventListener('click',()=>{
+    if(d.classList.contains('on'))d.classList.replace('on','off');
+    else if(d.classList.contains('off'))d.classList.remove('off');
+    else d.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>
