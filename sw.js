@@ -1,20 +1,23 @@
 
-const CACHE = 'staff-eventos-v1';
-const FILES = [
-  '/staff-eventos/',
-  '/staff-eventos/index.html',
-  '/staff-eventos/icon-192.png',
-  '/staff-eventos/icon-512.png'
-];
+// Service Worker v5 — SEM CACHE, sempre busca versão nova
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
 
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(FILES))
+self.addEventListener('activate', event => {
+  // Limpa todos os caches antigos
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.map(key => caches.delete(key)))
+    ).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+// Sem cache — sempre busca da rede
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    fetch(event.request).catch(() =>
+      caches.match(event.request)
+    )
   );
 });
