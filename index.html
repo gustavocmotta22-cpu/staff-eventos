@@ -297,6 +297,12 @@ tr:hover td{background:rgba(255,255,255,.008)}
   .fr,.g2,.g3,.g4{grid-template-columns:1fr}
   .pgrid,.rgrid{grid-template-columns:1fr}
 }
+
+/* BOTÃO VOLTAR */
+.back-btn{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:16px;width:fit-content;transition:all .2s}
+.back-btn:hover{border-color:var(--gold);color:var(--gold)}
+.back-btn .ba{font-size:16px}
+
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 </style>
@@ -544,7 +550,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- EVENTOS -->
-      <div id="panel-eventos" class="panel">
+      <div id="panel-eventos" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
           <div style="display:flex;gap:7px"><button class="btn btn-out btn-sm" style="border-color:var(--gold);color:var(--gold)">Todos</button><button class="btn btn-out btn-sm">Hoje</button><button class="btn btn-out btn-sm">Semana</button></div>
           <button class="btn btn-gold btn-sm" onclick="openM('m-evento')">+ Novo Evento</button>
@@ -557,7 +563,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- ESCALA -->
-      <div id="panel-escala" class="panel">
+      <div id="panel-escala" class="panel"><button class="back-btn" onclick="P('eventos',null)"><span class="ba">←</span> Voltar a Eventos</button>
         <div class="card">
           <div class="ch"><div><div class="ct">Casamento Ana & Pedro — 15/08/2026</div><div style="font-size:11px;color:var(--text3)">Casa de Festas Imperial · Chegada equipe: 15h00</div></div><span class="badge bg-gn">Confirmado</span></div>
           <div class="cb">
@@ -582,7 +588,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- SUBSTITUICAO (NOVO) -->
-      <div id="panel-substituicao" class="panel">
+      <div id="panel-substituicao" class="panel"><button class="back-btn" onclick="P('escala',null)"><span class="ba">←</span> Voltar à Escala</button>
         <div class="al al-red" style="margin-bottom:16px">⚠️ <strong>Lucas Prado</strong> recusou a convocação para Casamento Ana & Pedro (15/08) — Garçom. Selecione um substituto:</div>
         <div class="card" style="margin-bottom:14px">
           <div class="ch"><span class="ct">🤖 Substitutos Sugeridos pela IA</span><span style="font-size:11px;color:var(--text3)">Ordenados por avaliação + disponibilidade</span></div>
@@ -596,7 +602,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- CONTRATOS (NOVO) -->
-      <div id="panel-contratos" class="panel">
+      <div id="panel-contratos" class="panel"><button class="back-btn" onclick="P('escala',null)"><span class="ba">←</span> Voltar à Escala</button>
         <div class="g2">
           <div class="card">
             <div class="ch"><span class="ct">📋 Contratos do Evento</span><span style="font-size:11px;color:var(--text3)">Casamento Ana & Pedro · 15/08</span></div>
@@ -631,7 +637,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- PROFISSIONAIS -->
-      <div id="panel-profissionais" class="panel">
+      <div id="panel-profissionais" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
           <div style="display:flex;gap:7px"><input class="field" type="text" placeholder="🔍 Buscar..." style="width:200px;padding:7px 12px"><select class="field" style="width:140px;padding:7px 12px"><option>Todas as funções</option><option>Garçom</option><option>Maître</option><option>Barman</option><option>Copeiro</option></select></div>
           <div style="display:flex;gap:7px">
@@ -650,7 +656,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- PAGAMENTOS -->
-      <div id="panel-pagamentos" class="panel">
+      <div id="panel-pagamentos" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div class="stats" style="grid-template-columns:repeat(3,1fr)">
           <div class="sc g"><div class="si">⏳</div><div class="sv g">R$3.480</div><div class="sl">Aguardando</div></div>
           <div class="sc gn"><div class="si">✅</div><div class="sv gn">R$12.750</div><div class="sl">Pagos este mês</div></div>
@@ -668,7 +674,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- CHECK-IN -->
-      <div id="panel-checkin" class="panel">
+      <div id="panel-checkin" class="panel"><button class="back-btn" onclick="P('eventos',null)"><span class="ba">←</span> Voltar a Eventos</button>
         <div class="g2">
           <div class="card">
             <div class="ch"><span class="ct">📍 Check-in em Tempo Real</span><span class="badge bg-gn">Evento ativo</span></div>
@@ -719,7 +725,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- BANCO DE TALENTOS (NOVO) -->
-      <div id="panel-talentos" class="panel">
+      <div id="panel-talentos" class="panel"><button class="back-btn" onclick="P('profissionais',null)"><span class="ba">←</span> Voltar a Profissionais</button>
         <div class="al al-blue" style="margin-bottom:16px">🌟 Profissionais com perfil público ativo podem ser encontrados por outras empresas na plataforma.</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
           <div style="display:flex;gap:7px"><select class="field" style="width:160px;padding:7px 12px"><option>Todas as funções</option><option>Garçom</option><option>Barman</option><option>Maître</option></select><select class="field" style="width:140px;padding:7px 12px"><option>Todos os estados</option><option>SP</option><option>RJ</option><option>MG</option></select></div>
@@ -736,7 +742,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- AVALIACOES -->
-      <div id="panel-avaliacoes" class="panel">
+      <div id="panel-avaliacoes" class="panel"><button class="back-btn" onclick="P('checkin',null)"><span class="ba">←</span> Voltar ao Check-in</button>
         <div class="g2">
           <div class="card">
             <div class="ch"><span class="ct">⭐ Avaliar Profissional</span><span style="font-size:11px;color:var(--text3)">Casamento 15/08</span></div>
@@ -766,7 +772,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- RELATORIOS -->
-      <div id="panel-relatorios" class="panel">
+      <div id="panel-relatorios" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div class="g2">
           <div class="card">
             <div class="ch"><span class="ct">📊 Relatórios Disponíveis</span></div>
@@ -796,7 +802,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- USUARIOS -->
-      <div id="panel-usuarios" class="panel">
+      <div id="panel-usuarios" class="panel"><button class="back-btn" onclick="P('config',null)"><span class="ba">←</span> Voltar a Configurações</button>
         <div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-gold btn-sm" onclick="openM('m-user')">+ Novo Usuário</button></div>
         <div class="card">
           <div class="tw"><table><thead><tr><th>Usuário</th><th>Perfil</th><th>Eventos</th><th>Escalas</th><th>Financeiro</th><th>Contratos</th><th>Usuários</th><th></th></tr></thead><tbody>
@@ -808,7 +814,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- CLIENTES -->
-      <div id="panel-clientes" class="panel">
+      <div id="panel-clientes" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-gold btn-sm" onclick="openM('m-cliente')">+ Cadastrar Cliente</button></div>
         <div class="card"><div class="tw"><table><thead><tr><th>Empresa</th><th>CNPJ</th><th>Responsável</th><th>Eventos</th><th>Total gasto</th></tr></thead><tbody>
           <tr><td><div><div style="font-weight:600">Casa de Festas Imperial</div><div style="font-size:10px;color:var(--text3)">Imperial Eventos</div></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:11px">12.345.678/0001-90</td><td>Carlos Imperial</td><td style="font-family:'JetBrains Mono',monospace">14</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gold)">R$74.200</td></tr>
@@ -817,7 +823,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- NOTIFICACOES -->
-      <div id="panel-notificacoes" class="panel">
+      <div id="panel-notificacoes" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div class="card" style="max-width:600px">
           <div class="ch"><span class="ct">🔔 Notificações</span><span style="font-size:11px;color:var(--gold);cursor:pointer" onclick="toast('✓ Todas marcadas como lidas')">Marcar tudo como lido</span></div>
           <div class="cb" style="padding:8px">
@@ -830,7 +836,7 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <!-- CONFIG -->
-      <div id="panel-config" class="panel">
+      <div id="panel-config" class="panel"><button class="back-btn" onclick="P('dashboard',null)"><span class="ba">←</span> Voltar ao Dashboard</button>
         <div class="g2" style="max-width:860px">
           <div class="card">
             <div class="ch"><span class="ct">🏢 Dados da Empresa</span><button class="btn btn-out btn-sm" onclick="toast('✅ Dados salvos!')">Salvar</button></div>
@@ -865,15 +871,115 @@ tr:hover td{background:rgba(255,255,255,.008)}
 
 <!-- MODALS -->
 <div id="m-evento" class="mo"><div class="mbox">
-  <div class="mh"><span class="mt">📅 Novo Evento</span><button class="mc" onclick="closeM('m-evento')">✕</button></div>
-  <div class="fg"><label>Nome do Evento</label><input class="field" placeholder="Ex: Casamento dos noivos..."></div>
-  <div class="fr"><div class="fg"><label>Tipo</label><select class="field"><option>Casamento</option><option>15 anos</option><option>Formatura</option><option>Corporativo</option><option>Churrasco</option><option>Infantil</option><option>Aniversário</option></select></div><div class="fg"><label>Cliente</label><select class="field"><option>Casa de Festas Imperial</option><option>TechBrasil S/A</option></select></div></div>
-  <div class="fr"><div class="fg"><label>Data</label><input class="field" type="date"></div><div class="fg"><label>Convidados</label><input class="field" type="number" placeholder="0"></div></div>
-  <div class="fr"><div class="fg"><label>Chegada equipe</label><input class="field" type="time" value="15:00"></div><div class="fg"><label>Início</label><input class="field" type="time" value="18:00"></div></div>
-  <div class="fg"><label>Endereço completo</label><input class="field" placeholder="Rua, número, bairro, cidade"></div>
-  <div class="fg"><label>Observações</label><textarea class="field" rows="2" placeholder="Informações adicionais..." style="resize:none"></textarea></div>
-  <div class="al al-gold">⚠️ Este evento poderá gerar horas extras conforme necessidade do cliente.</div>
-  <button class="btn btn-gold" onclick="closeM('m-evento');toast('✅ Evento criado! Agora escale a equipe e envie contratos.')">Criar Evento</button>
+  <div class="mh"><span class="mt">📅 Cadastrar Evento</span><button class="mc" onclick="closeM('m-evento')">✕</button></div>
+
+  <!-- DADOS BÁSICOS -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">📋 Dados do Evento</div>
+  <div class="fg"><label>Nome do Evento *</label><input class="field" placeholder="Ex: Casamento de Ana e Pedro"></div>
+  <div class="fr">
+    <div class="fg"><label>Tipo de Evento *</label>
+      <select class="field">
+        <option value="">Selecionar...</option>
+        <option>Casamento</option>
+        <option>15 anos</option>
+        <option>Formatura</option>
+        <option>Evento Corporativo</option>
+        <option>Churrasco</option>
+        <option>Festa Infantil</option>
+        <option>Aniversário</option>
+        <option>Confraternização</option>
+        <option>Coquetel</option>
+        <option>Outro</option>
+      </select>
+    </div>
+    <div class="fg"><label>Cliente *</label>
+      <select class="field">
+        <option>Casa de Festas Imperial</option>
+        <option>TechBrasil S/A</option>
+        <option>+ Cadastrar novo cliente</option>
+      </select>
+    </div>
+  </div>
+  <div class="fr">
+    <div class="fg"><label>Data do Evento *</label><input class="field" type="date"></div>
+    <div class="fg"><label>Nº de Convidados</label><input class="field" type="number" placeholder="0"></div>
+  </div>
+
+  <!-- HORÁRIOS -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">⏰ Horários</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+    <div class="fg"><label>Chegada Equipe *</label><input class="field" type="time" value="15:00"></div>
+    <div class="fg"><label>Início Evento *</label><input class="field" type="time" value="18:00"></div>
+    <div class="fg"><label>Término Previsto *</label><input class="field" type="time" value="23:00"></div>
+  </div>
+  <div class="fg">
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:10px 13px">
+      <div><div style="font-size:12px;font-weight:600;color:var(--gold)">⚠️ Evento pode gerar horas extras</div><div style="font-size:10px;color:var(--text3);margin-top:1px">Informar profissionais na convocação</div></div>
+      <button class="tog on" onclick="this.classList.toggle('on')"></button>
+    </div>
+  </div>
+
+  <!-- LOCAL -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">📍 Local do Evento</div>
+  <div class="fg"><label>Nome do Local</label><input class="field" placeholder="Ex: Casa de Festas Imperial"></div>
+  <div class="fg"><label>Endereço completo *</label><input class="field" placeholder="Rua, número, bairro"></div>
+  <div class="fr">
+    <div class="fg"><label>CEP</label><input class="field" placeholder="00000-000" oninput="mCEP(this)"></div>
+    <div class="fg"><label>Cidade / Estado</label><input class="field" placeholder="São Paulo / SP"></div>
+  </div>
+
+  <!-- VAGAS POR FUNÇÃO -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">👥 Vagas por Função</div>
+  <div style="background:var(--blue-dim);border:1px solid rgba(59,130,246,.2);border-radius:7px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue)">💡 Defina quantos profissionais você precisa de cada função. O sistema só permitirá escalação nas funções com vagas abertas.</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🍽️</span><span style="flex:1;font-size:13px;font-weight:600">Garçom</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🍷</span><span style="flex:1;font-size:13px;font-weight:600">Copeiro</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">👔</span><span style="flex:1;font-size:13px;font-weight:600">Maître</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🍸</span><span style="flex:1;font-size:13px;font-weight:600">Barman</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">👨‍🍳</span><span style="flex:1;font-size:13px;font-weight:600">Cozinheiro</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🥩</span><span style="flex:1;font-size:13px;font-weight:600">Auxiliar de Cozinha</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🎵</span><span style="flex:1;font-size:13px;font-weight:600">DJ</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🛡️</span><span style="flex:1;font-size:13px;font-weight:600">Segurança</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">🧹</span><span style="flex:1;font-size:13px;font-weight:600">Equipe de Limpeza</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:14px">💁</span><span style="flex:1;font-size:13px;font-weight:600">Recepcionista</span>
+      <input type="number" class="field" value="0" min="0" style="width:70px;padding:6px;text-align:center">
+    </div>
+  </div>
+
+  <!-- OBSERVAÇÕES -->
+  <div style="margin-top:16px">
+    <div class="fg"><label>Observações Gerais</label><textarea class="field" rows="3" placeholder="Informações importantes para a equipe: dress code, estacionamento, contato no local..." style="resize:none"></textarea></div>
+  </div>
+
+  <button class="btn btn-gold" style="margin-top:8px" onclick="closeM('m-evento');toast('✅ Evento criado! Vagas definidas. Agora vá em Escalar Equipe.')">📅 Salvar Evento</button>
 </div></div>
 
 <div id="m-user" class="mo"><div class="mbox">
@@ -902,15 +1008,133 @@ tr:hover td{background:rgba(255,255,255,.008)}
 </div></div>
 
 <div id="m-prof" class="mo"><div class="mbox">
-  <div class="mh"><span class="mt">👥 Novo Profissional</span><button class="mc" onclick="closeM('m-prof')">✕</button></div>
-  <div class="fr"><div class="fg"><label>Nome completo</label><input class="field" placeholder="Nome completo"></div><div class="fg"><label>CPF</label><input class="field" placeholder="000.000.000-00"></div></div>
-  <div class="fr"><div class="fg"><label>Função</label><select class="field"><option>Garçom</option><option>Copeiro</option><option>Maître</option><option>Barman</option><option>Cozinheiro</option><option>DJ</option><option>Segurança</option><option>Limpeza</option></select></div><div class="fg"><label>WhatsApp</label><input class="field" placeholder="(11) 99999-0000"></div></div>
-  <div class="fr"><div class="fg"><label>Cachê padrão (R$)</label><input class="field" type="number" placeholder="0,00"></div><div class="fg"><label>Pagamento padrão</label><select class="field"><option>PIX</option><option>Dinheiro</option><option>Transferência</option></select></div></div>
-  <div class="fg"><label>Chave PIX</label><input class="field" placeholder="CPF, telefone ou e-mail"></div>
-  <div class="fg"><label>Perfil público no Banco de Talentos</label>
-    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">Ativar perfil público compartilhável</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+  <div class="mh"><span class="mt">👥 Cadastrar Profissional</span><button class="mc" onclick="closeM('m-prof')">✕</button></div>
+
+  <!-- SEÇÃO: DADOS PESSOAIS -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">📋 Dados Pessoais</div>
+  <div class="fg"><label>Nome completo *</label><input class="field" placeholder="Nome completo do profissional"></div>
+  <div class="fr">
+    <div class="fg"><label>CPF *</label><input class="field" placeholder="000.000.000-00" oninput="mCPF(this)"></div>
+    <div class="fg"><label>RG</label><input class="field" placeholder="00.000.000-0"></div>
   </div>
-  <button class="btn btn-gold" onclick="closeM('m-prof');toast('✅ Profissional cadastrado! Perfil público criado em staffeventos.com.br/')">Cadastrar Profissional</button>
+  <div class="fr">
+    <div class="fg"><label>Data de Nascimento *</label><input class="field" type="date"></div>
+    <div class="fg"><label>Sexo *</label>
+      <select class="field">
+        <option value="">Selecionar...</option>
+        <option>Masculino</option>
+        <option>Feminino</option>
+        <option>Prefiro não informar</option>
+      </select>
+    </div>
+  </div>
+  <div class="fg">
+    <label>Foto do Profissional</label>
+    <div style="border:2px dashed var(--border2);border-radius:9px;padding:16px;text-align:center;cursor:pointer;position:relative">
+      <input type="file" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+      <div style="font-size:22px;margin-bottom:4px">📷</div>
+      <div style="font-size:12px;color:var(--text2)">Toque para adicionar foto</div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO: CONTATO -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">📞 Contato</div>
+  <div class="fr">
+    <div class="fg"><label>Telefone *</label><input class="field" placeholder="(11) 99999-0000" oninput="mPhone(this)"></div>
+    <div class="fg"><label>WhatsApp *</label><input class="field" placeholder="(11) 99999-0000" oninput="mPhone(this)"></div>
+  </div>
+  <div class="fg"><label>E-mail</label><input class="field" type="email" placeholder="profissional@email.com"></div>
+
+  <!-- SEÇÃO: ENDEREÇO -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">📍 Endereço</div>
+  <div class="fr">
+    <div class="fg"><label>CEP *</label><input class="field" placeholder="00000-000" oninput="mCEP(this)"></div>
+    <div class="fg"><label>Cidade / Estado</label><input class="field" placeholder="São Paulo / SP"></div>
+  </div>
+  <div class="fg"><label>Rua e Número</label><input class="field" placeholder="Rua, número, complemento"></div>
+  <div class="fg"><label>Bairro</label><input class="field" placeholder="Nome do bairro"></div>
+
+  <!-- SEÇÃO: VEÍCULO -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">🚗 Veículo Próprio</div>
+  <div class="fg">
+    <label>Possui veículo?</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div class="popt" onclick="document.querySelectorAll('#m-prof .vopt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')" style="text-align:center;padding:10px" class="vopt popt"><div style="font-size:20px">🚗</div><div style="font-size:11px;font-weight:700;margin-top:4px">Carro</div></div>
+      <div class="popt" onclick="document.querySelectorAll('#m-prof .vopt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')" style="text-align:center;padding:10px" class="vopt popt"><div style="font-size:20px">🏍️</div><div style="font-size:11px;font-weight:700;margin-top:4px">Moto</div></div>
+      <div class="popt sel" onclick="document.querySelectorAll('#m-prof .vopt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')" style="text-align:center;padding:10px" class="vopt popt"><div style="font-size:20px">🚶</div><div style="font-size:11px;font-weight:700;margin-top:4px">Nenhum</div></div>
+    </div>
+    <div style="background:var(--blue-dim);border:1px solid rgba(59,130,246,.2);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--blue)">💡 Usado para organizar caronas entre profissionais do mesmo evento.</div>
+  </div>
+  <div class="fg"><label>Aceita dar carona?</label>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <span style="font-size:13px">Disponível para dar carona</span>
+      <button class="tog" onclick="this.classList.toggle('on')"></button>
+    </div>
+  </div>
+
+  <!-- SEÇÃO: FUNÇÕES -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">⚡ Funções Profissionais</div>
+  <div class="fg">
+    <label>Função Principal *</label>
+    <select class="field" id="prof-func-principal">
+      <option value="">Selecionar função principal...</option>
+      <option>Garçom</option>
+      <option>Copeiro</option>
+      <option>Maître</option>
+      <option>Barman</option>
+      <option>Cozinheiro</option>
+      <option>Auxiliar de Cozinha</option>
+      <option>Churrasqueiro</option>
+      <option>DJ</option>
+      <option>Segurança</option>
+      <option>Recepcionista</option>
+      <option>Equipe de Limpeza</option>
+      <option>Outros</option>
+    </select>
+  </div>
+  <div class="fg">
+    <label>Funções Alternativas (pode trabalhar em)</label>
+    <div style="background:var(--surface2);border-radius:9px;padding:12px;display:flex;flex-direction:column;gap:7px">
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold)"> Garçom</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold)"> Copeiro</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold)"> Auxiliar de Cozinha</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold)"> Maître</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold)"> Recepcionista</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold)"> Equipe de Limpeza</label>
+    </div>
+    <div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--gold)">⚠️ O profissional só será escalado em funções alternativas se autorizado pelo gestor em cada evento.</div>
+  </div>
+
+  <!-- SEÇÃO: FINANCEIRO -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">💰 Dados Financeiros</div>
+  <div class="fr">
+    <div class="fg"><label>Cachê padrão (R$)</label><input class="field" type="number" placeholder="0,00"></div>
+    <div class="fg"><label>Forma de pagamento</label><select class="field"><option>PIX</option><option>Dinheiro</option><option>Transferência</option></select></div>
+  </div>
+  <div class="fg"><label>Chave PIX</label><input class="field" placeholder="CPF, telefone, e-mail ou aleatória"></div>
+  <div class="fr">
+    <div class="fg"><label>Banco</label><input class="field" placeholder="Ex: Nubank, Itaú..."></div>
+    <div class="fg"><label>Agência / Conta</label><input class="field" placeholder="0000 / 00000-0"></div>
+  </div>
+
+  <!-- SEÇÃO: DOCUMENTOS -->
+  <div style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">📎 Documentos</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">📄 CPF</span><button class="btn btn-out btn-sm" style="padding:5px 12px;font-size:11px">Anexar</button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">🪪 RG</span><button class="btn btn-out btn-sm" style="padding:5px 12px;font-size:11px">Anexar</button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">🏠 Comprovante de Residência</span><button class="btn btn-out btn-sm" style="padding:5px 12px;font-size:11px">Anexar</button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px"><span style="font-size:13px">🎓 Certificados / Cursos</span><button class="btn btn-out btn-sm" style="padding:5px 12px;font-size:11px">Anexar</button></div>
+  </div>
+
+  <!-- PERFIL PÚBLICO -->
+  <div style="margin-top:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:10px 13px">
+      <div><div style="font-size:13px;font-weight:600">🌟 Perfil público no Banco de Talentos</div><div style="font-size:10px;color:var(--text3);margin-top:2px">Permite ser encontrado por outras empresas</div></div>
+      <button class="tog on" onclick="this.classList.toggle('on')"></button>
+    </div>
+  </div>
+
+  <button class="btn btn-gold" style="margin-top:18px" onclick="closeM('m-prof');toast('✅ Profissional cadastrado com sucesso!')">💾 Salvar Profissional</button>
 </div></div>
 
 <div id="m-disp" class="mo"><div class="mbox">
