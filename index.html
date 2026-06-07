@@ -2,15 +2,6 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#F5C842">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Staff Eventos">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <meta name="mobile-web-app-capable" content="yes">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Staff Eventos — v2.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -387,27 +378,33 @@ tr:hover td{background:rgba(255,255,255,.008)}
       </div>
 
       <div id="cs3" style="display:none">
-        <div class="fg">
-          <label>Escolha seu Plano</label>
-          <div class="pgrid">
-            <div class="popt" onclick="selPlan(this)"><div class="pn">Essencial</div><div class="pp">R$97/mês</div><div style="font-size:9px;color:var(--text3);margin-top:3px">30 profis.</div></div>
-            <div class="popt sel" onclick="selPlan(this)"><div class="pbadge">POPULAR</div><div class="pn">Profissional</div><div class="pp">R$297/mês</div><div style="font-size:9px;color:var(--text3);margin-top:3px">Ilimitado + IA</div></div>
-            <div class="popt" onclick="selPlan(this)"><div class="pn">Agência</div><div class="pp">R$497/mês</div><div style="font-size:9px;color:var(--text3);margin-top:3px">Multi-empresa</div></div>
+        <!-- TRIAL GRATUITO — sem cartão -->
+        <div style="text-align:center;padding:20px 0 10px">
+          <div style="font-size:48px;margin-bottom:12px">🎉</div>
+          <div style="font-size:22px;font-weight:900;color:var(--gold);margin-bottom:6px">30 dias 100% grátis</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">Sem cartão. Sem cobrança.<br>Acesso completo a todos os recursos.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:12px;padding:18px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">O que está incluso no trial:</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> Cadastro ilimitado de profissionais</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> Eventos ilimitados</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> Convocação automática via WhatsApp</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> App mobile para profissionais</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> Check-in GPS + QR Code</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> IA de sugestão de escala</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> Contratos digitais e recibos</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green);font-size:16px">✓</span> Relatórios completos</div>
           </div>
         </div>
-        <div class="fg"><label>Forma de Pagamento</label><select class="field" onchange="toggleCardFields(this)"><option>Cartão de Crédito</option><option>PIX (5% desconto)</option><option>Boleto Bancário</option></select></div>
-        <div id="card-fields">
-          <div class="fg"><label>Número do Cartão</label><input class="field" placeholder="0000 0000 0000 0000" oninput="mCard(this)" maxlength="19"></div>
-          <div class="fr">
-            <div class="fg"><label>Validade</label><input class="field" placeholder="MM/AA" maxlength="5"></div>
-            <div class="fg"><label>CVV</label><input class="field" placeholder="000" maxlength="4"></div>
-          </div>
-          <div class="fg"><label>Nome no Cartão</label><input class="field" placeholder="NOME COMO NO CARTÃO" style="text-transform:uppercase"></div>
+        <div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:10px;padding:12px 14px;margin-bottom:16px;text-align:center">
+          <div style="font-size:12px;color:var(--gold)">⏳ Após 30 dias, escolha o plano ideal para seu negócio.</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">A partir de R$97/mês. Cancele quando quiser.</div>
         </div>
-        <div class="al al-green">✓ 30 dias grátis — sem cobrança hoje. Cancele quando quiser.</div>
-        <div style="display:flex;gap:8px">
+        <div class="al al-green" style="justify-content:center;font-size:13px">🔒 Nenhum cartão necessário para começar</div>
+        <div style="display:flex;gap:8px;margin-top:4px">
           <button class="btn btn-out btn-sm" onclick="goStep(2)" style="width:auto;padding:11px 18px">← Voltar</button>
-          <button class="btn btn-gold" onclick="finCad()">🚀 Criar minha conta</button>
+          <button class="btn btn-gold" onclick="finCad()">🚀 Começar grátis agora!</button>
         </div>
       </div>
     </div>
@@ -431,6 +428,14 @@ tr:hover td{background:rgba(255,255,255,.008)}
         <button class="btn btn-out btn-sm" onclick="demoLogin('owner')" style="width:100%;padding:8px;font-size:11px">👑 Owner</button>
         <button class="btn btn-out btn-sm" onclick="demoLogin('admin')" style="width:100%;padding:8px;font-size:11px">🛡️ Admin</button>
         <button class="btn btn-out btn-sm" onclick="demoLogin('viewer')" style="width:100%;padding:8px;font-size:11px">👁️ Viewer</button>
+      </div>
+      <!-- ACESSO DESENVOLVEDOR — oculto, visível só com duplo clique no logo -->
+      <div id="dev-access" style="display:none;margin-top:14px">
+        <div style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);border-radius:10px;padding:14px">
+          <div style="font-size:10px;font-weight:700;color:var(--purple);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">🔧 Acesso Desenvolvedor</div>
+          <div class="fg" style="margin-bottom:8px"><input class="field" type="password" id="dev-pwd" placeholder="Senha master" style="border-color:rgba(168,85,247,.3)"></div>
+          <button class="btn btn-sm" onclick="devLogin()" style="width:100%;background:var(--purple);color:#fff;padding:9px">Entrar como Dev</button>
+        </div>
       </div>
     </div>
   </div>
@@ -958,6 +963,110 @@ tr:hover td{background:rgba(255,255,255,.008)}
   <button class="btn btn-gold" onclick="closeM('m-cliente');toast('✅ Cliente cadastrado com sucesso!')">Cadastrar Cliente</button>
 </div></div>
 
+
+<!-- ======== SCREEN 3: PESQUISA SATISFAÇÃO ======== -->
+<div id="screen-survey" class="screen" style="flex-direction:column;align-items:center;justify-content:center;padding:24px;background:var(--bg)">
+  <div style="width:100%;max-width:480px">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-size:48px;margin-bottom:12px">🌟</div>
+      <div style="font-size:22px;font-weight:900;margin-bottom:6px">Sua opinião vale muito!</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6">Você usou o Staff Eventos por 30 dias.<br>Nos conta o que achou — leva 2 minutos.</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px">
+
+      <div style="margin-bottom:20px">
+        <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;display:block;text-transform:none;letter-spacing:0">1. Como você avalia o Staff Eventos no geral?</label>
+        <div style="display:flex;gap:8px;justify-content:center">
+          <button onclick="setStar(1)" id="s1" class="star-btn" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.4">⭐</button>
+          <button onclick="setStar(2)" id="s2" class="star-btn" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.4">⭐</button>
+          <button onclick="setStar(3)" id="s3" class="star-btn" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.4">⭐</button>
+          <button onclick="setStar(4)" id="s4" class="star-btn" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.4">⭐</button>
+          <button onclick="setStar(5)" id="s5" class="star-btn" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.4">⭐</button>
+        </div>
+        <div id="star-label" style="text-align:center;font-size:12px;color:var(--text3);margin-top:6px">Toque para avaliar</div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;display:block;text-transform:none;letter-spacing:0">2. Qual funcionalidade você mais usou?</label>
+        <select class="field" id="sv-func">
+          <option value="">Selecionar...</option>
+          <option>Escalação de equipe</option>
+          <option>Convocação via WhatsApp</option>
+          <option>Check-in / Check-out</option>
+          <option>Contratos digitais</option>
+          <option>Pagamentos e recibos</option>
+          <option>Avaliação de profissionais</option>
+          <option>Relatórios</option>
+          <option>Banco de Talentos</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;display:block;text-transform:none;letter-spacing:0">3. O app facilitou sua operação no dia a dia?</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <button onclick="setOpt(this,'sv-op')" class="sv-opt" data-group="sv-op" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s">😕 Não muito</button>
+          <button onclick="setOpt(this,'sv-op')" class="sv-opt" data-group="sv-op" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s">🙂 Parcialmente</button>
+          <button onclick="setOpt(this,'sv-op')" class="sv-opt" data-group="sv-op" style="background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;color:var(--green);transition:all .2s">🚀 Muito!</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;display:block;text-transform:none;letter-spacing:0">4. Você recomendaria para outros gestores?</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <button onclick="setOpt(this,'sv-rec')" class="sv-opt" data-group="sv-rec" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s">❌ Não</button>
+          <button onclick="setOpt(this,'sv-rec')" class="sv-opt" data-group="sv-rec" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s">🤔 Talvez</button>
+          <button onclick="setOpt(this,'sv-rec')" class="sv-opt" data-group="sv-rec" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s">💯 Com certeza!</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;display:block;text-transform:none;letter-spacing:0">5. O que podemos melhorar?</label>
+        <textarea class="field" id="sv-comment" rows="3" placeholder="Sua sugestão é muito importante para nós..." style="resize:none"></textarea>
+      </div>
+
+      <button class="btn btn-gold" onclick="enviarPesquisa()">Enviar avaliação →</button>
+      <div style="text-align:center;margin-top:10px">
+        <span onclick="pularPesquisa()" style="font-size:11px;color:var(--text3);cursor:pointer;text-decoration:underline">Pular por enquanto</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== SCREEN 4: PAINEL DEV ======== -->
+<div id="screen-dev" class="screen" style="flex-direction:column;align-items:center;justify-content:center;padding:24px;background:var(--bg)">
+  <div style="width:100%;max-width:640px">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--purple);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🔧 Painel do Desenvolvedor</div>
+      <div style="font-size:20px;font-weight:800">Staff Eventos — Dev Console</div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid rgba(168,85,247,.3);border-radius:16px;padding:24px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--purple);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px">Pesquisas de Satisfação Recebidas</div>
+      <div id="dev-surveys">
+        <!-- Populado via JS -->
+      </div>
+      <div id="dev-empty" style="text-align:center;padding:24px;color:var(--text3);font-size:13px">
+        Nenhuma pesquisa recebida ainda.<br>
+        <span style="font-size:11px">As respostas aparecerão aqui quando as empresas completarem 30 dias.</span>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Acesso Rápido — Testar como:</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <button class="btn btn-out btn-sm" onclick="demoLogin('owner');showScreen('app')" style="width:100%;padding:10px;font-size:12px">👑 Proprietário</button>
+        <button class="btn btn-out btn-sm" onclick="demoLogin('admin');showScreen('app')" style="width:100%;padding:10px;font-size:12px">🛡️ Admin</button>
+        <button class="btn btn-out btn-sm" onclick="demoLogin('viewer');showScreen('app')" style="width:100%;padding:10px;font-size:12px">👁️ Supervisor</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-out" onclick="showScreen('landing')" style="font-size:13px;padding:11px">← Sair do Dev</button>
+      <button class="btn" onclick="simularPesquisa()" style="background:var(--purple);color:#fff;font-size:13px;padding:11px">🧪 Simular Pesquisa</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div id="toast" class="toast" style="display:none"><span id="t-icon" style="font-size:18px;flex-shrink:0">✅</span><div id="t-msg" style="font-size:13px">Mensagem</div></div>
 
@@ -1066,6 +1175,155 @@ function mCard(el){let v=el.value.replace(/\D/g,'');v=v.replace(/(\d{4})/g,'$1 '
 function bCNPJ(v){if(v.replace(/\D/g,'').length===14){document.getElementById('razao').value='Buffet Imperial Ltda';document.getElementById('fantasia').value='Buffet Imperial';toast('✅ CNPJ encontrado! Dados preenchidos automaticamente.')}}
 function toggleCardFields(el){document.getElementById('card-fields').style.display=el.value.includes('PIX')||el.value.includes('Boleto')?'none':'block'}
 
+
+// ── DEVELOPER ACCESS ──
+// Ativar painel dev com duplo clique no logo da marca
+document.addEventListener('DOMContentLoaded', () => {
+  const brandIcon = document.querySelector('.brand-icon');
+  if(brandIcon) {
+    brandIcon.addEventListener('dblclick', () => {
+      document.getElementById('dev-access').style.display = 'block';
+      toast('🔧 Modo desenvolvedor ativado');
+    });
+  }
+});
+
+function devLogin() {
+  const pwd = document.getElementById('dev-pwd').value;
+  // Senha master do desenvolvedor
+  if(pwd === 'StaffDev@2026#Master') {
+    renderDevPanel();
+    showScreen('dev');
+    toast('🔧 Bem-vindo ao painel Dev, Gustavo!');
+  } else {
+    toast('❌ Senha incorreta.');
+    document.getElementById('dev-pwd').style.borderColor = 'var(--red)';
+    setTimeout(() => document.getElementById('dev-pwd').style.borderColor = '', 2000);
+  }
+}
+
+// ── NAVEGAÇÃO DE TELAS ──
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+
+// Override do finCad para mostrar trial sem survey imediato
+function finCad() {
+  toast('🎉 Conta criada! Bem-vindo ao Staff Eventos — 30 dias grátis!');
+  // Salvar data de início do trial
+  localStorage.setItem('trialStart', Date.now());
+  setTimeout(() => demoLogin('owner'), 1400);
+}
+
+// Verificar se 30 dias passaram (simulado para demo)
+function checkTrial() {
+  const start = localStorage.getItem('trialStart');
+  if(!start) return;
+  const days = (Date.now() - parseInt(start)) / (1000 * 60 * 60 * 24);
+  if(days >= 30) showScreen('survey');
+}
+
+// ── PESQUISA DE SATISFAÇÃO ──
+let surveyStars = 0;
+const starLabels = ['','😞 Muito ruim','😕 Ruim','😐 Regular','😊 Bom','🤩 Excelente!'];
+
+function setStar(n) {
+  surveyStars = n;
+  for(let i=1;i<=5;i++) {
+    document.getElementById('s'+i).style.opacity = i<=n ? '1' : '0.25';
+  }
+  document.getElementById('star-label').textContent = starLabels[n];
+  document.getElementById('star-label').style.color = n>=4 ? 'var(--green)' : n==3 ? 'var(--gold)' : 'var(--red)';
+}
+
+function setOpt(el, group) {
+  document.querySelectorAll('[data-group="'+group+'"]').forEach(b => {
+    b.style.background = 'var(--surface2)';
+    b.style.borderColor = 'var(--border)';
+    b.style.color = 'var(--text2)';
+  });
+  el.style.background = 'var(--gold-dim)';
+  el.style.borderColor = 'var(--gold-border)';
+  el.style.color = 'var(--gold)';
+}
+
+function enviarPesquisa() {
+  const func = document.getElementById('sv-func').value;
+  const comment = document.getElementById('sv-comment').value;
+  if(!surveyStars) { toast('⭐ Por favor avalie com as estrelas!'); return; }
+
+  // Salvar resposta localmente
+  const surveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+  surveys.push({
+    data: new Date().toLocaleDateString('pt-BR'),
+    hora: new Date().toLocaleTimeString('pt-BR'),
+    estrelas: surveyStars,
+    funcionalidade: func || 'Não informado',
+    comentario: comment || 'Sem comentário',
+    empresa: 'Empresa Teste ' + (surveys.length + 1)
+  });
+  localStorage.setItem('surveys', JSON.stringify(surveys));
+
+  toast('🙏 Obrigado pela avaliação! Continuamos melhorando para você.');
+  setTimeout(() => demoLogin('owner'), 1500);
+}
+
+function pularPesquisa() {
+  demoLogin('owner');
+}
+
+// ── PAINEL DEV ──
+function renderDevPanel() {
+  const surveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+  const container = document.getElementById('dev-surveys');
+  const empty = document.getElementById('dev-empty');
+
+  if(surveys.length === 0) {
+    container.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  container.style.display = 'block';
+  container.innerHTML = surveys.map((s, i) => `
+    <div style="background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:10px;border-left:3px solid var(--gold)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:700;font-size:13px">${s.empresa}</div>
+        <div style="font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace">${s.data} · ${s.hora}</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="background:var(--gold-dim);color:var(--gold);padding:3px 8px;border-radius:4px;font-size:11px">⭐ ${s.estrelas}/5 — ${starLabels[s.estrelas]}</span>
+        <span style="background:var(--surface3);color:var(--text2);padding:3px 8px;border-radius:4px;font-size:11px">📌 ${s.funcionalidade}</span>
+      </div>
+      ${s.comentario !== 'Sem comentário' ? `<div style="font-size:12px;color:var(--text2);font-style:italic">"${s.comentario}"</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function simularPesquisa() {
+  const surveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+  const exemplos = [
+    {empresa:'Buffet Imperial SP', estrelas:5, funcionalidade:'Escalação de equipe', comentario:'Economizei 3 horas por evento! Fantástico.'},
+    {empresa:'Casa de Festas Primavera', estrelas:4, funcionalidade:'Convocação via WhatsApp', comentario:'O WhatsApp automático mudou tudo. Só falta integrar com nota fiscal.'},
+    {empresa:'Eventos & Cia', estrelas:5, funcionalidade:'Check-in / Check-out', comentario:'A selfie no check-in acabou com as faltas não notificadas.'},
+  ];
+  const ex = exemplos[surveys.length % exemplos.length];
+  surveys.push({
+    data: new Date().toLocaleDateString('pt-BR'),
+    hora: new Date().toLocaleTimeString('pt-BR'),
+    estrelas: ex.estrelas,
+    funcionalidade: ex.funcionalidade,
+    comentario: ex.comentario,
+    empresa: ex.empresa
+  });
+  localStorage.setItem('surveys', JSON.stringify(surveys));
+  renderDevPanel();
+  toast('🧪 Pesquisa simulada adicionada!');
+}
+
+// ── DISPONIBILIDADE TOGGLE ──
 // disponibilidade toggle
 document.querySelectorAll('.disp-day').forEach(d=>{
   d.addEventListener('click',()=>{
@@ -1074,16 +1332,6 @@ document.querySelectorAll('.disp-day').forEach(d=>{
     else d.classList.add('on');
   });
 });
-</script>
-
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('SW registrado'))
-      .catch(e => console.log('SW erro:', e));
-  });
-}
 </script>
 </body>
 </html>
