@@ -505,6 +505,7 @@ input,select,textarea,button{font-family:'Plus Jakarta Sans',sans-serif}
           <button class="sb-item" onclick="P('substituicao',this)"><span class="ic">🔄</span>Substituições<span class="badge">1</span></button>
           <button class="sb-item" onclick="P('avaliacoes',this)"><span class="ic">⭐</span>Avaliações</button>
           <button class="sb-item" onclick="P('talentos',this)"><span class="ic">🌟</span>Banco de Talentos</button>
+          <button class="sb-item" onclick="P('convites',this)"><span class="ic">🔗</span>Links de Cadastro<span class="badge green">NOVO</span></button>
         </div>
         <div class="sb-section" id="sb-sys">
           <div class="sb-lbl">Sistema</div>
@@ -952,6 +953,90 @@ input,select,textarea,button{font-family:'Plus Jakarta Sans',sans-serif}
   </div>
 </div>
 
+
+<!-- ═══ LINKS DE CADASTRO ═══ -->
+<div id="panel-convites" class="panel">
+  <button class="back-btn" onclick="P('profissionais',null)">Voltar a Profissionais</button>
+
+  <div style="background:var(--blue-light);border:1.5px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start">
+    <span style="font-size:20px;flex-shrink:0">🔗</span>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--blue)">Como funciona o link de cadastro</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:3px;line-height:1.6">Gere um link único para o profissional. Ele abre uma tela de cadastro exclusiva. O link expira após 1 uso — se outra pessoa tentar usar o mesmo link, o cadastro é descartado e o link bloqueado permanentemente.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button class="btn btn-primary" onclick="openM('m-gerar-link')" style="flex:1">🔗 Gerar Novo Link</button>
+    <button class="btn btn-outline btn-sm" onclick="toast('📋 Lista exportada!')">Exportar</button>
+  </div>
+
+  <!-- Estatísticas rápidas -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+    <div class="kpi" style="padding:14px"><div class="kpi-label">Enviados</div><div class="kpi-val blue" style="font-size:22px">8</div></div>
+    <div class="kpi" style="padding:14px"><div class="kpi-label">Concluídos</div><div class="kpi-val green" style="font-size:22px">5</div></div>
+    <div class="kpi" style="padding:14px"><div class="kpi-label">Expirados</div><div class="kpi-val" style="font-size:22px;color:var(--text3)">3</div></div>
+  </div>
+
+  <!-- Lista de links -->
+  <div class="card">
+    <div class="card-head"><span class="card-title">Links Gerados</span></div>
+    <div class="card-body" style="padding:12px" id="links-list">
+
+      <div class="link-item">
+        <div class="link-status-dot" style="background:var(--green)"></div>
+        <div class="link-info">
+          <div class="link-name">João Silva — Garçom</div>
+          <div class="link-meta">Enviado: 10/08/2026 · Concluído: 10/08/2026 15:32</div>
+          <div class="link-url">staffeventos.com.br/cadastro/a1b2c3d4e5f6</div>
+        </div>
+        <div class="link-actions">
+          <span class="badge b-green">✓ Usado</span>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-status-dot" style="background:var(--yellow)"></div>
+        <div class="link-info">
+          <div class="link-name">Maria Santos — Copeira</div>
+          <div class="link-meta">Enviado: 11/08/2026 · Aguardando preenchimento</div>
+          <div class="link-url">staffeventos.com.br/cadastro/g7h8i9j0k1l2</div>
+        </div>
+        <div class="link-actions">
+          <button class="btn btn-sm btn-outline" style="padding:4px 8px;font-size:10px" onclick="copiarLink('g7h8i9j0k1l2')">📋 Copiar</button>
+          <button class="btn btn-sm btn-outline" style="padding:4px 8px;font-size:10px" onclick="enviarWA('Maria Santos')">📲 WA</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-status-dot" style="background:var(--yellow)"></div>
+        <div class="link-info">
+          <div class="link-name">Pedro Lima — Barman</div>
+          <div class="link-meta">Enviado: 11/08/2026 · Aguardando preenchimento</div>
+          <div class="link-url">staffeventos.com.br/cadastro/m3n4o5p6q7r8</div>
+        </div>
+        <div class="link-actions">
+          <button class="btn btn-sm btn-outline" style="padding:4px 8px;font-size:10px" onclick="copiarLink('m3n4o5p6q7r8')">📋 Copiar</button>
+          <button class="btn btn-sm btn-outline" style="padding:4px 8px;font-size:10px" onclick="enviarWA('Pedro Lima')">📲 WA</button>
+        </div>
+      </div>
+
+      <div class="link-item" style="background:var(--red-light)">
+        <div class="link-status-dot" style="background:var(--red)"></div>
+        <div class="link-info">
+          <div class="link-name">Link expirado — Garçom</div>
+          <div class="link-meta">Enviado: 05/08/2026 · Expirado em 12/08/2026</div>
+          <div class="link-url">staffeventos.com.br/cadastro/s9t0u1v2w3x4</div>
+        </div>
+        <div class="link-actions">
+          <span class="badge b-red">Expirado</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
       </div><!-- /content -->
     </div><!-- /main -->
   </div><!-- /app-wrap -->
@@ -1150,6 +1235,69 @@ input,select,textarea,button{font-family:'Plus Jakarta Sans',sans-serif}
   <button class="btn btn-primary btn-full" onclick="closeM('m-cliente');toast('✅ Cliente cadastrado!')">Salvar Cliente</button>
 </div></div>
 
+
+<!-- ══ INVITE — Cadastro pelo link único ══ -->
+<div id="s-invite" class="screen" style="display:none;flex-direction:column">
+  <div class="invite-wrap" id="invite-content">
+    <!-- preenchido via JS -->
+  </div>
+</div>
+
+
+<!-- Modal: Gerar Link de Cadastro -->
+<div id="m-gerar-link" class="mo"><div class="mbox">
+  <span class="mo-handle"></span>
+  <div class="mo-head"><span class="mo-title">🔗 Gerar Link de Cadastro</span><button class="mo-close" onclick="closeM('m-gerar-link')">✕</button></div>
+
+  <div style="background:var(--yellow-light);border:1.5px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#92400E">
+    ⚠️ O link gerado é de <strong>uso único</strong>. Após 1 cadastro concluído, ele expira automaticamente e não pode ser reutilizado.
+  </div>
+
+  <div class="fg"><label class="fl">Nome do Profissional *</label><input class="fi" id="link-nome" placeholder="Nome completo (para identificação)"></div>
+  <div class="fg"><label class="fl">Função que vai exercer *</label>
+    <select class="fi" id="link-func">
+      <option value="">Selecionar...</option>
+      <option>Garçom</option><option>Copeiro</option><option>Maître</option>
+      <option>Barman</option><option>Cozinheiro</option><option>Auxiliar de Cozinha</option>
+      <option>Churrasqueiro</option><option>DJ</option><option>Segurança</option>
+      <option>Recepcionista</option><option>Limpeza</option><option>Outro</option>
+    </select>
+  </div>
+  <div class="fg"><label class="fl">WhatsApp do Profissional</label><input class="fi" id="link-wa" placeholder="(11) 99999-0000" oninput="mPhone(this)"></div>
+  <div class="fg"><label class="fl">Validade do link</label>
+    <select class="fi" id="link-validade">
+      <option>24 horas</option>
+      <option>48 horas</option>
+      <option>7 dias</option>
+      <option>30 dias</option>
+    </select>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:9px;padding:10px 13px;margin-bottom:16px">
+    <div>
+      <div style="font-size:13px;font-weight:600">Enviar via WhatsApp automaticamente</div>
+      <div style="font-size:10px;color:var(--text3)">Mensagem com o link de cadastro</div>
+    </div>
+    <button class="tog on" id="link-wa-toggle" onclick="this.classList.toggle('on')"></button>
+  </div>
+
+  <button class="btn btn-primary btn-full" onclick="gerarLink()">🔗 Gerar Link Único</button>
+
+  <!-- Resultado após gerar -->
+  <div id="link-result" style="display:none;margin-top:16px">
+    <div style="background:var(--green-pale);border:1.5px solid var(--green-light);border-radius:10px;padding:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Link gerado com sucesso!</div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:monospace;font-size:12px;color:var(--dark);word-break:break-all;margin-bottom:10px" id="link-url-display">
+        staffeventos.com.br/cadastro/...
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <button class="btn btn-sm btn-outline btn-full" onclick="copiarLinkResult()">📋 Copiar</button>
+        <button class="btn btn-sm btn-outline btn-full" onclick="simularInvite()">👁️ Visualizar</button>
+        <button class="btn btn-sm btn-primary btn-full" onclick="enviarLinkWA()">📲 Enviar WA</button>
+      </div>
+    </div>
+  </div>
+</div></div>
+
 <!-- TOAST -->
 <div id="toast" class="toast"><span id="ti">✅</span><span id="tm">Mensagem</span></div>
 
@@ -1237,7 +1385,8 @@ function P(id,navEl,mobile){
   if(p)p.classList.add('active');
   if(navEl&&!mobile){document.querySelectorAll('.sb-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active')}
   if(mobile){document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));if(navEl)navEl.classList.add('active')}
-  const T={dashboard:['Dashboard','Visão geral'],eventos:['Eventos','Agenda de eventos'],escala:['Escala Inteligente','IA · Casamento Ana & Pedro'],profissionais:['Profissionais','84 cadastrados'],pagamentos:['Pagamentos','Aprovações e recibos'],relatorios:['Relatórios','Análises e exportações'],convocacoes:['Convocações','Status em tempo real'],contratos:['Contratos Digitais','Assinatura via celular'],checkin:['Check-in / Check-out','Controle de presença'],substituicao:['Substituições','Sugestões IA'],avaliacoes:['Avaliações','Ranking de desempenho'],talentos:['Banco de Talentos','Marketplace interno'],clientes:['Clientes','Base cadastral'],usuarios:['Usuários & Acessos','Perfis e permissões'],config:['Configurações','Empresa e sistema'],notificacoes:['Notificações','Alertas em tempo real']};
+  const T={dashboard:['Dashboard','Visão geral'],eventos:['Eventos','Agenda de eventos'],escala:['Escala Inteligente','IA · Casamento Ana & Pedro'],profissionais:['Profissionais','84 cadastrados'],pagamentos:['Pagamentos','Aprovações e recibos'],relatorios:['Relatórios','Análises e exportações'],convocacoes:['Convocações','Status em tempo real'],
+        convites:['Links de Cadastro','Convite seguro e de uso único'],contratos:['Contratos Digitais','Assinatura via celular'],checkin:['Check-in / Check-out','Controle de presença'],substituicao:['Substituições','Sugestões IA'],avaliacoes:['Avaliações','Ranking de desempenho'],talentos:['Banco de Talentos','Marketplace interno'],clientes:['Clientes','Base cadastral'],usuarios:['Usuários & Acessos','Perfis e permissões'],config:['Configurações','Empresa e sistema'],notificacoes:['Notificações','Alertas em tempo real']};
   if(T[id]){document.getElementById('ttitle').textContent=T[id][0];document.getElementById('tsub').textContent=T[id][1]}
 }
 
